@@ -138,7 +138,7 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
 
 <script>
 const K='cabofrio_v2';
-const D={dep:'2026-11-21T03:00',stops:{},items:{},custom:[],exp:[],info:{},cfg:{km:600,kml:12,pr:6,rt:true}};
+const D={dep:'2026-11-22T03:00',stops:{},items:{},custom:[],exp:[],info:{},cfg:{km:600,kml:12,pr:6,rt:true}};
 let S=JSON.parse(JSON.stringify(D));
 try{const r=localStorage.getItem(K);if(r){const o=JSON.parse(r);S=Object.assign(S,o);S.cfg=Object.assign({},D.cfg,o.cfg||{})}}catch(e){}
 const $=i=>document.getElementById(i);
