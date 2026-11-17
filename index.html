@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viagem Santa Luzia ➔ Cabo Frio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white pb-20">
+
+    <!-- Top Header / App Bar -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-brand-600/20 border border-brand-500/30 flex items-center justify-center text-brand-500 shadow-inner">
+                <i class="fa-solid fa-car-side text-lg"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-bold tracking-tight text-slate-100 flex items-center gap-1.5">
+                    <span>Santa Luzia</span> 
+                    <i class="fa-solid fa-arrow-right text-xs text-brand-500"></i> 
+                    <span>Cabo Frio</span>
+                </h1>
+                <p class="text-xs text-slate-400">Locação Localiza • 21/Nov às 03:00</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider bg-brand-500/10 text-brand-400 border border-brand-500/20 rounded-full animate-pulse">
+                Pronto
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-md w-full mx-auto p-4 space-y-4">
+
+        <!-- TAB 1: RESUMO DA VIAGEM -->
+        <section id="tab-resumo" class="space-y-4 tab-content">
+            <!-- Hero Card -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 border border-slate-800 p-5 shadow-xl">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-brand-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <span class="text-xs font-medium text-brand-400 bg-brand-500/10 px-2.5 py-1 rounded-md border border-brand-500/20">Saída Estratégica</span>
+                        <h2 class="text-xl font-bold mt-2 tracking-tight text-white">Domingo, 21 de Novembro</h2>
+                        <p class="text-xs text-slate-400 mt-0.5">Horário programado: <strong class="text-brand-400">03:00 da manhã</strong> (Pista livre)</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-black text-brand-400">~550 km</div>
+                        <div class="text-[10px] text-slate-400">Distância Total</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5 pt-3 border-t border-slate-800/80 text-xs">
+                    <div class="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 block text-[10px]">Veículo</span>
+                        <strong class="text-slate-200">Carro Localiza (Retirada Sábado)</strong>
+                    </div>
+                    <div class="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 block text-[10px]">Contorno Capital</span>
+                        <strong class="text-slate-200">Arco Metropolitano (BR-493)</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Status Alert -->
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start space-x-3 text-amber-200">
+                <i class="fa-solid fa-shield-halved text-amber-400 text-lg mt-0.5"></i>
+                <div class="text-xs space-y-1">
+                    <strong class="block font-semibold text-amber-300">Dica de Ouro de Segurança:</strong>
+                    <p class="text-amber-200/90 leading-relaxed">Para economizar os 15% de taxa da Localiza e o valor da diária da tag, utilize estritamente as <strong>cabines manuais</strong> para pagar pedágios com cartão ou PIX.</p>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Shortcuts -->
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="switchTab('paradas')" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-brand-500/50 transition flex flex-col items-center text-center group">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 group-hover:bg-brand-500/20 text-brand-400 flex items-center justify-center mb-2 transition">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-slate-200">Ver Roteiro</span>
+                    <span class="text-[11px] text-slate-400">4 paradas programadas</span>
+                </button>
+                <button onclick="switchTab('checklist')" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-brand-500/50 transition flex flex-col items-center text-center group">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 group-hover:bg-brand-500/20 text-brand-400 flex items-center justify-center mb-2 transition">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-slate-200">Checklist & Regras</span>
+                    <span class="text-[11px] text-slate-400">Itens e cuidados</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 2: ROTEIRO INTERATIVO DE PARADAS -->
+        <section id="tab-paradas" class="space-y-4 tab-content hidden">
+            <div class="flex justify-between items-center px-1">
+                <h2 class="text-base font-bold text-white">Roteiro Interativo</h2>
+                <span class="text-xs text-slate-400" id="stops-counter">0/4 concluídas</span>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Stop 1 -->
+                <div id="stop-card-1" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 transition">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold flex items-center justify-center text-xs mt-0.5 border border-brand-500/30">1</div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Conselheiro Lafaiete (MG)</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Aprox. 90 km • 1h15 de viagem</p>
+                                <p class="text-xs text-slate-300 mt-2 bg-slate-950/50 p-2 rounded-lg border border-slate-800/80">
+                                    <i class="fa-solid fa-mug-hot text-brand-400 mr-1"></i> Esticar as pernas, ir ao banheiro e tomar o primeiro café da madrugada.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-800 flex justify-end">
+                        <label class="flex items-center space-x-2 cursor-pointer text-xs font-medium text-slate-300 hover:text-white select-none">
+                            <input type="checkbox" onchange="toggleStop(1)" id="stop-check-1" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
+                            <span>Marcar como Concluída</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Stop 2 -->
+                <div id="stop-card-2" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 transition">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold flex items-center justify-center text-xs mt-0.5 border border-brand-500/30">2</div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Juiz de Fora / Santos Dumont (MG)</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Aprox. 170 km • Parada Principal</p>
+                                <p class="text-xs text-slate-300 mt-2 bg-slate-950/50 p-2 rounded-lg border border-slate-800/80">
+                                    <i class="fa-solid fa-utensils text-brand-400 mr-1"></i> Parada para café reforçado ou almoço leve. Fim do trecho de serra mineira.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-800 flex justify-end">
+                        <label class="flex items-center space-x-2 cursor-pointer text-xs font-medium text-slate-300 hover:text-white select-none">
+                            <input type="checkbox" onchange="toggleStop(2)" id="stop-check-2" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
+                            <span>Marcar como Concluída</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Stop 3 -->
+                <div id="stop-card-3" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 transition">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold flex items-center justify-center text-xs mt-0.5 border border-brand-500/30">3</div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Início do Arco Metropolitano (BR-493)</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Saracuruna / Duque de Caxias (RJ)</p>
+                                <p class="text-xs text-slate-300 mt-2 bg-slate-950/50 p-2 rounded-lg border border-slate-800/80">
+                                    <i class="fa-solid fa-road text-brand-400 mr-1"></i> Parada cirúrgica para respirar, checar o GPS e entrar na via de contorno (longe da capital).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-800 flex justify-end">
+                        <label class="flex items-center space-x-2 cursor-pointer text-xs font-medium text-slate-300 hover:text-white select-none">
+                            <input type="checkbox" onchange="toggleStop(3)" id="stop-check-3" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
+                            <span>Marcar como Concluída</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Stop 4 -->
+                <div id="stop-card-4" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 transition">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold flex items-center justify-center text-xs mt-0.5 border border-brand-500/30">4</div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Cabo Frio (RJ)</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Destino Final • Região dos Lagos</p>
+                                <p class="text-xs text-slate-300 mt-2 bg-slate-950/50 p-2 rounded-lg border border-slate-800/80">
+                                    <i class="fa-solid fa-umbrella-beach text-brand-400 mr-1"></i> Chegada com segurança e descanso merecido com a família!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-800 flex justify-end">
+                        <label class="flex items-center space-x-2 cursor-pointer text-xs font-medium text-slate-300 hover:text-white select-none">
+                            <input type="checkbox" onchange="toggleStop(4)" id="stop-check-4" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
+                            <span>Marcar como Concluída</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: CHECKLIST & REGRAS DE OURO -->
+        <section id="tab-checklist" class="space-y-4 tab-content hidden">
+            <div class="flex justify-between items-center px-1">
+                <h2 class="text-base font-bold text-white">Checklist & Regras</h2>
+                <span class="text-xs text-slate-400" id="checklist-counter">0/6 itens</span>
+            </div>
+
+            <!-- Golden Rules Cards -->
+            <div class="space-y-3">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
+                    <div class="flex items-center space-x-2 text-brand-400">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h3 class="text-xs font-bold uppercase tracking-wider">Regras Essenciais de Condução</h3>
+                    </div>
+                    <ul class="text-xs space-y-2 text-slate-300 pl-2">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-brand-400 mt-0.5"></i>
+                            <span><strong>Freio-Motor na Serra:</strong> Em descidas acentuadas, reduza para 3ª ou 2ª marcha. Nunca desça com o pé no freio direto ou em ponto morto.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-brand-400 mt-0.5"></i>
+                            <span><strong>Pedágios Manuais:</strong> Para evitar os 15% de taxa da Localiza e a diária da Tag, entre nas cabines manuais e pague com cartão/PIX.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-brand-400 mt-0.5"></i>
+                            <span><strong>Velocidade & Ritmo:</strong> Fique na direita se houver carros apressados. Você tem mais de 10 anos de carta, vá no seu tempo!</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Interactive Items Checklist -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Itens de Bagagem & Eletrônicos</h3>
+                <div class="space-y-2.5" id="checklist-items-container">
+                    <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-950 transition">
+                        <input type="checkbox" onchange="updateChecklist()" class="check-item w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500" data-id="1">
+                        <span class="text-xs text-slate-200">Power Bank de 20.000 mAh carregado</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-950 transition">
+                        <input type="checkbox" onchange="updateChecklist()" class="check-item w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500" data-id="2">
+                        <span class="text-xs text-slate-200">Cabo USB de boa qualidade para multimídia</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-950 transition">
+                        <input type="checkbox" onchange="updateChecklist()" class="check-item w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500" data-id="3">
+                        <span class="text-xs text-slate-200">Google Maps Offline baixado no celular</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-950 transition">
+                        <input type="checkbox" onchange="updateChecklist()" class="check-item w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500" data-id="4">
+                        <span class="text-xs text-slate-200">Documentação do carro Localiza verificada</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-950 transition">
+                        <input type="checkbox" onchange="updateChecklist()" class="check-item w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500" data-id="5">
+                        <span class="text-xs text-slate-200">Dinheiro em espécie trocado para emergência</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-950 transition">
+                        <input type="checkbox" onchange="updateChecklist()" class="check-item w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500" data-id="6">
+                        <span class="text-xs text-slate-200">Água e petiscos fáceis no console</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: GEOLOCALIZAÇÃO & STATUS -->
+        <section id="tab-gps" class="space-y-4 tab-content hidden">
+            <div class="flex justify-between items-center px-1">
+                <h2 class="text-base font-bold text-white">Status de Localização</h2>
+                <span class="text-xs text-slate-400">GPS em tempo real</span>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div id="gps-status-dot" class="w-3 h-3 rounded-full bg-amber-500 animate-ping"></div>
+                        <span id="gps-status-text" class="text-xs font-medium text-slate-300">Aguardando ativação do GPS...</span>
+                    </div>
+                    <button onclick="fetchLocation()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 shadow-lg shadow-brand-600/20">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                        <span>Atualizar</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5 pt-2 text-xs">
+                    <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 block text-[10px]">Latitude</span>
+                        <strong id="lat-val" class="text-slate-200 font-mono">-</strong>
+                    </div>
+                    <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 block text-[10px]">Longitude</span>
+                        <strong id="lon-val" class="text-slate-200 font-mono">-</strong>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
+                    <span class="text-slate-400 block text-[10px]">Precisão do Sinal</span>
+                    <strong id="acc-val" class="text-slate-300">Não iniciado</strong>
+                </div>
+
+                <div class="pt-2">
+                    <a href="https://maps.app.goo.gl/fYvwUsuX6CobBLtF6" target="_blank" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl transition flex items-center justify-center space-x-2 border border-slate-700">
+                        <i class="fa-solid fa-map text-brand-400"></i>
+                        <span>Abrir Rota Oficial no Google Maps</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 text-xs text-slate-400 leading-relaxed">
+                <p><i class="fa-solid fa-circle-info text-brand-400 mr-1"></i> O navegador utilizará o sinal GPS do seu smartphone para capturar suas coordenadas atuais. Certifique-se de permitir o acesso à localização quando solicitado.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar for Mobile Dashboard -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-2 py-2 z-50 shadow-2xl">
+        <div class="max-w-md mx-auto grid grid-cols-4 gap-1">
+            <button onclick="switchTab('resumo')" id="nav-btn-resumo" class="nav-btn flex flex-col items-center justify-center py-2 rounded-xl text-brand-400 transition">
+                <i class="fa-solid fa-house text-base mb-1"></i>
+                <span class="text-[10px] font-medium">Início</span>
+            </button>
+            <button onclick="switchTab('paradas')" id="nav-btn-paradas" class="nav-btn flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 hover:text-slate-200 transition">
+                <i class="fa-solid fa-map-location-dot text-base mb-1"></i>
+                <span class="text-[10px] font-medium">Paradas</span>
+            </button>
+            <button onclick="switchTab('checklist')" id="nav-btn-checklist" class="nav-btn flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 hover:text-slate-200 transition">
+                <i class="fa-solid fa-clipboard-check text-base mb-1"></i>
+                <span class="text-[10px] font-medium">Checklist</span>
+            </button>
+            <button onclick="switchTab('gps')" id="nav-btn-gps" class="nav-btn flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 hover:text-slate-200 transition">
+                <i class="fa-solid fa-location-crosshairs text-base mb-1"></i>
+                <span class="text-[10px] font-medium">GPS</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Script Logic -->
+    <script>
+        // Tab Switcher Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-brand-400');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById('nav-btn-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-slate-400');
+                activeBtn.classList.add('text-brand-400');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Stops State & LocalStorage
+        function toggleStop(id) {
+            const checkbox = document.getElementById('stop-check-' + id);
+            const card = document.getElementById('stop-card-' + id);
+            if (checkbox.checked) {
+                card.classList.add('border-brand-500/50', 'bg-slate-900/90');
+                card.style.opacity = '0.75';
+            } else {
+                card.classList.remove('border-brand-500/50', 'bg-slate-900/90');
+                card.style.opacity = '1';
+            }
+            saveStopsState();
+            updateStopsCounter();
+        }
+
+        function updateStopsCounter() {
+            let completed = 0;
+            for(let i=1; i<=4; i++) {
+                if(document.getElementById('stop-check-' + i).checked) completed++;
+            }
+            document.getElementById('stops-counter').innerText = completed + '/4 concluídas';
+        }
+
+        function saveStopsState() {
+            const state = {};
+            for(let i=1; i<=4; i++) {
+                state[i] = document.getElementById('stop-check-' + i).checked;
+            }
+            localStorage.setItem('trip_stops', JSON.stringify(state));
+        }
+
+        function loadStopsState() {
+            const saved = localStorage.getItem('trip_stops');
+            if(saved) {
+                const state = JSON.parse(saved);
+                for(let i=1; i<=4; i++) {
+                    if(state[i]) {
+                        document.getElementById('stop-check-' + i).checked = true;
+                        toggleStop(i);
+                    }
+                }
+            }
+            updateStopsCounter();
+        }
+
+        // Checklist State & LocalStorage
+        function updateChecklist() {
+            let completed = 0;
+            const items = document.querySelectorAll('.check-item');
+            const state = {};
+            items.forEach((item, index) => {
+                const id = item.getAttribute('data-id');
+                state[id] = item.checked;
+                if(item.checked) {
+                    completed++;
+                    item.closest('label').classList.add('border-brand-500/30', 'bg-brand-500/5');
+                } else {
+                    item.closest('label').classList.remove('border-brand-500/30', 'bg-brand-500/5');
+                }
+            });
+            document.getElementById('checklist-counter').innerText = completed + '/6 itens';
+            localStorage.setItem('trip_checklist', JSON.stringify(state));
+        }
+
+        function loadChecklistState() {
+            const saved = localStorage.getItem('trip_checklist');
+            if(saved) {
+                const state = JSON.parse(saved);
+                const items = document.querySelectorAll('.check-item');
+                items.forEach(item => {
+                    const id = item.getAttribute('data-id');
+                    if(state[id]) {
+                        item.checked = true;
+                    }
+                });
+                updateChecklist();
+            }
+        }
+
+        // Geolocation Logic
+        function fetchLocation() {
+            const statusDot = document.getElementById('gps-status-dot');
+            const statusText = document.getElementById('gps-status-text');
+            const latVal = document.getElementById('lat-val');
+            const lonVal = document.getElementById('lon-val');
+            const accVal = document.getElementById('acc-val');
+
+            if (!navigator.geolocation) {
+                statusText.innerText = 'Geolocalização não suportada';
+                statusDot.className = 'w-3 h-3 rounded-full bg-red-500';
+                return;
+            }
+
+            statusText.innerText = 'Buscando satélites / sinal...';
+            statusDot.className = 'w-3 h-3 rounded-full bg-amber-500 animate-ping';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude.toFixed(5);
+                    const lon = position.coords.longitude.toFixed(5);
+                    const acc = position.coords.accuracy.toFixed(1);
+
+                    latVal.innerText = lat;
+                    lonVal.innerText = lon;
+                    accVal.innerText = 'Aprox. ' + acc + ' metros';
+
+                    statusText.innerText = 'Sinal GPS ativo e preciso';
+                    statusDot.className = 'w-3 h-3 rounded-full bg-brand-500';
+                },
+                (error) => {
+                    statusText.innerText = 'Erro ao obter localização';
+                    statusDot.className = 'w-3 h-3 rounded-full bg-red-500';
+                    accVal.innerText = error.message;
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        // Initialize state on load
+        window.onload = function() {
+            loadStopsState();
+            loadChecklistState();
+        }
+    </script>
+</body>
+</html>
