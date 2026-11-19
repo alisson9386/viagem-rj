@@ -15,12 +15,15 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--txt
 .inp{background:var(--bg);border:1px solid #334155;border-radius:.75rem;padding:.55rem .75rem;width:100%;font-size:16px;color:var(--txt)}
 .btn{background:#059669;color:#fff;border-radius:.75rem;padding:.55rem .9rem;font-size:.8rem;font-weight:600}
 .btn2{background:#1e293b;border:1px solid #334155;color:var(--txt);border-radius:.75rem;padding:.45rem .7rem;font-size:.75rem;font-weight:600;display:inline-block}
-.pill{background:#0f172a;border:1px solid #1e293b;color:var(--mut);border-radius:999px;padding:.35rem .75rem;font-size:.75rem;font-weight:600;white-space:nowrap}
+.pill{background:#0f172a;border:1px solid #1e293b;color:var(--mut);border-radius:999px;padding:.35rem .8rem;font-size:.75rem;font-weight:600;white-space:nowrap}
 .pill.on{background:#10b98126;border-color:#10b98166;color:var(--ac)}
 .mut{color:var(--mut)}.ac{color:var(--ac)}
 .bar{height:6px;border-radius:9px;background:#1e293b;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);transition:width .3s}
 .tab{display:none}.tab.on{display:block}
-.done{opacity:.58}.done .ttl{text-decoration:line-through}
+.done{opacity:.55}.done .ttl{text-decoration:line-through}
+.now{border-color:#34d399;box-shadow:0 0 0 1px #34d39966}
+.tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:#1e293b;color:var(--mut)}
+.tag.g{background:#10b98133;color:var(--ac)}.tag.a{background:#f59e0b33;color:#fcd34d}
 .nb{display:flex;flex-direction:column;align-items:center;padding:.38rem .15rem;font-size:9.5px;color:var(--mut);border-radius:.75rem}.nb b{font-size:17px;font-weight:400;line-height:1.2}.nb.on{color:var(--ac);background:#34d3991a}
 input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
 .no-sb::-webkit-scrollbar{display:none}.no-sb{-ms-overflow-style:none;scrollbar-width:none}
@@ -35,57 +38,51 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
 
 <main class="max-w-md mx-auto p-4">
 
-<!-- INÍCIO -->
+<!-- AGORA -->
 <section id="t-home" class="tab on space-y-4">
-  <div class="card">
-    <div class="text-xs ac font-semibold uppercase tracking-wider">Saída</div>
-    <h2 id="dep" class="text-xl font-bold mt-1"></h2>
-    <div id="cd" class="grid grid-cols-4 gap-2 mt-3 text-center"></div>
-    <label class="block text-[11px] mut mt-3">Alterar data/hora da saída</label>
-    <input id="depIn" type="datetime-local" class="inp mt-1" oninput="setDep(this.value)">
-  </div>
-  <div class="card space-y-3"><h3 class="text-xs font-bold mut uppercase tracking-wider">Progresso da viagem</h3><div id="prog" class="space-y-3"></div></div>
-  <div class="grid grid-cols-3 gap-2 text-center" id="stats"></div>
-  <div class="card flex items-center justify-between gap-3">
-    <div>
-      <div class="text-[11px] ac font-bold uppercase tracking-wider">Roteiro Cabo Frio & Arraial</div>
-      <div class="text-xs mut mt-0.5">Dom a Qua · Praia do Forte, Atalaia, Prainha, Ilha do Japonês e Passagem</div>
-    </div>
-    <button class="btn shrink-0" onclick="tab('dias')">Abrir 🏖️</button>
-  </div>
+  <div id="now" class="card"></div>
+  <div class="card space-y-3"><h3 class="text-xs font-bold mut uppercase tracking-wider">Visão geral da viagem</h3><div id="steps" class="grid grid-cols-3 gap-2"></div><div id="prog" class="space-y-3 pt-1"></div></div>
   <div class="rounded-2xl p-4 bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 space-y-2 leading-relaxed">
-    <p>📅 <b>Feriado:</b> sexta, 20/11 é feriado nacional (Consciência Negra). Sair de madrugada ajuda a fugir do movimento nas saídas de BH e na chegada à Região dos Lagos.</p>
-    <p>💳 <b>Pedágios:</b> prefira cabines manuais (cartão/PIX) para evitar taxa e diária da tag da locadora. Confirme as condições no seu contrato.</p>
-    <p>📸 <b>Na retirada:</b> fotografe e filme o carro todo antes de sair e confira estepe, macaco e triângulo.</p>
+    <p>💳 <b>Pedágios:</b> prefira cabines manuais (cartão/PIX) para evitar taxa e diária da tag da locadora. Confirme no contrato.</p>
+    <p>📸 <b>Na retirada:</b> fotografe e filme o carro todo e confira estepe, macaco e triângulo.</p>
+    <p>👶 <b>Com os pequenos:</b> pare a cada ~2 h e confira as cadeirinhas antes de sair.</p>
   </div>
+  <details class="card text-xs mut leading-relaxed"><summary class="font-semibold text-slate-200 cursor-pointer">Como usar este painel</summary>
+    <p class="mt-2"><b>Agora</b> mostra onde você deveria estar neste momento. <b>Estrada</b> tem a ida e a volta com horários. <b>Cabo Frio</b> traz o roteiro dos dias. <b>Mapa</b> desenha cada trecho. Toque em “Ativar localização” para comparar onde você está com o previsto. Tudo fica salvo neste aparelho.</p></details>
 </section>
 
-<!-- ESTRADA (IDA) -->
+<!-- ESTRADA -->
 <section id="t-rota" class="tab space-y-3">
-  <div class="flex justify-between items-center px-1"><h2 class="text-base font-bold">Roteiro da Estrada</h2><span id="sc" class="text-xs mut"></span></div>
-  <p class="text-[11px] mut px-1">Horários estimados a partir da saída, já com paradas. Distâncias aproximadas: confirme no Maps.</p>
+  <div class="flex justify-between items-center px-1"><h2 class="text-base font-bold">Estrada</h2><span id="sc" class="text-xs mut"></span></div>
+  <div id="wayP" class="flex gap-1.5"></div>
+  <div class="card"><label class="block text-[11px] mut">Data e hora da saída</label><input id="wayIn" type="datetime-local" class="inp mt-1" oninput="setWayDt(this.value)"></div>
+  <p id="wayNote" class="text-[11px] mut px-1"></p>
   <div id="stops" class="space-y-3"></div>
   <a class="btn w-full text-center block" target="_blank" rel="noopener" href="https://maps.app.goo.gl/fYvwUsuX6CobBLtF6">🗺️ Abrir rota oficial no Google Maps</a>
   <div class="card text-xs space-y-2 leading-relaxed">
     <h3 class="font-bold ac uppercase tracking-wider text-[11px]">Regras de ouro</h3>
-    <p>⛰️ <b>Serra:</b> descida longa, use 2ª ou 3ª marcha. Nunca ponto morto nem pé no freio direto.</p>
-    <p>😴 <b>Sono:</b> pare a cada ~2 h ou ao primeiro sinal de cansaço. Revezar o volante, se possível.</p>
-    <p>🐢 <b>Ritmo:</b> fique à direita se houver pressa atrás. Você vai no seu tempo.</p>
+    <p>⛰️ <b>Serra:</b> use 2ª ou 3ª marcha nas descidas longas. Nunca ponto morto.</p>
+    <p>😴 <b>Sono:</b> pare a cada ~2 h ou ao primeiro sinal de cansaço.</p>
     <p>⛽ <b>Combustível:</b> reabasteça com o tanque em 1/4, principalmente de madrugada.</p>
   </div>
 </section>
 
-<!-- ROTEIRO CABO FRIO (DOM - QUA) -->
+<!-- CABO FRIO -->
 <section id="t-dias" class="tab space-y-3">
-  <div class="flex justify-between items-center px-1">
-    <div>
-      <h2 class="text-base font-bold">Roteiro Cabo Frio</h2>
-      <p class="text-[11px] mut">Com Josué (2a 10m) e Elisa (10m) · Base: Sesc Cabo Frio</p>
-    </div>
-    <span id="dc" class="text-xs mut"></span>
-  </div>
+  <div class="px-1"><h2 class="text-base font-bold">Roteiro Cabo Frio</h2><p class="text-[11px] mut">Com Josué (2a 10m) e Elisa (10m) · Base: Sesc Cabo Frio</p></div>
   <div id="dayFilters" class="flex gap-1.5 overflow-x-auto no-sb pb-1"></div>
-  <div id="dayPlan" class="space-y-4"></div>
+  <div id="dayPlan" class="space-y-3"></div>
+  <div id="tips" class="space-y-2"></div>
+</section>
+
+<!-- MAPA -->
+<section id="t-mapa" class="tab space-y-3">
+  <div class="px-1"><h2 class="text-base font-bold">Mapa</h2><p class="text-[11px] mut">Desenho esquemático do trecho. Posições aproximadas. Use o botão para abrir a navegação real.</p></div>
+  <div id="mapP" class="flex gap-1.5 overflow-x-auto no-sb pb-1"></div>
+  <div class="card !p-2"><div id="map"></div>
+    <div class="flex gap-3 flex-wrap text-[11px] mut px-2 pb-1"><span>🟢 Você</span><span>🟠 Previsto agora</span><span>⚪ Paradas</span></div></div>
+  <div id="mapL" class="space-y-1.5"></div>
+  <a id="mapG" class="btn w-full text-center block" target="_blank" rel="noopener" href="#">Abrir este roteiro no Google Maps</a>
 </section>
 
 <!-- MALA -->
@@ -99,8 +96,8 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
   <button class="btn2 w-full" onclick="resetChecks()">Desmarcar tudo</button>
 </section>
 
-<!-- GASTOS -->
-<section id="t-gastos" class="tab space-y-3">
+<!-- MAIS: GASTOS + SOS -->
+<section id="t-mais" class="tab space-y-3">
   <h2 class="text-base font-bold px-1">Gastos</h2>
   <div class="card space-y-3">
     <h3 class="text-xs font-bold mut uppercase tracking-wider">Estimativa de combustível</h3>
@@ -113,36 +110,32 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
     <div class="rounded-xl bg-slate-950 border border-slate-800 p-3 text-sm">Estimativa: <b id="fuel" class="ac"></b> <span id="liters" class="text-xs mut"></span></div>
   </div>
   <div class="card space-y-2">
-    <h3 class="text-xs font-bold mut uppercase tracking-wider">Gastos reais (pedágio, lanche, etc.)</h3>
+    <h3 class="text-xs font-bold mut uppercase tracking-wider">Gastos reais</h3>
     <div class="flex gap-2"><input id="eD" class="inp" placeholder="Descrição"><input id="eV" type="number" inputmode="decimal" step="0.01" class="inp" style="max-width:6.5rem" placeholder="R$"></div>
     <button class="btn w-full" onclick="addExp()">Adicionar gasto</button>
     <div id="exp" class="space-y-1.5 pt-1"></div>
     <div class="flex justify-between pt-2 border-t border-slate-800 text-sm"><span class="mut">Total registrado</span><b id="expT" class="ac"></b></div>
   </div>
-</section>
-
-<!-- SOS -->
-<section id="t-sos" class="tab space-y-3">
-  <h2 class="text-base font-bold px-1">Emergência e dados</h2>
-  <div class="grid grid-cols-2 gap-2">
-    <a class="card text-center" href="tel:191"><div class="text-2xl">🚓</div><b class="text-sm">191</b><div class="text-[11px] mut">PRF (rodovias)</div></a>
-    <a class="card text-center" href="tel:192"><div class="text-2xl">🚑</div><b class="text-sm">192</b><div class="text-[11px] mut">SAMU</div></a>
-    <a class="card text-center" href="tel:193"><div class="text-2xl">🚒</div><b class="text-sm">193</b><div class="text-[11px] mut">Bombeiros</div></a>
-    <a class="card text-center" href="tel:190"><div class="text-2xl">👮</div><b class="text-sm">190</b><div class="text-[11px] mut">Polícia Militar</div></a>
+  <h2 class="text-base font-bold px-1 pt-2">Emergência e dados</h2>
+  <div class="grid grid-cols-4 gap-2">
+    <a class="card text-center !p-2" href="tel:191"><div class="text-xl">🚓</div><b class="text-sm">191</b><div class="text-[10px] mut">PRF</div></a>
+    <a class="card text-center !p-2" href="tel:192"><div class="text-xl">🚑</div><b class="text-sm">192</b><div class="text-[10px] mut">SAMU</div></a>
+    <a class="card text-center !p-2" href="tel:193"><div class="text-xl">🚒</div><b class="text-sm">193</b><div class="text-[10px] mut">Bombeiros</div></a>
+    <a class="card text-center !p-2" href="tel:190"><div class="text-xl">👮</div><b class="text-sm">190</b><div class="text-[10px] mut">PM</div></a>
   </div>
   <div class="card space-y-2">
     <h3 class="text-xs font-bold mut uppercase tracking-wider">Meus dados (salvos neste aparelho)</h3>
     <input class="inp" data-i="loc" placeholder="Telefone da assistência 24h da Localiza">
     <input class="inp" data-i="contrato" placeholder="Nº do contrato / placa do carro">
     <input class="inp" data-i="hotel" placeholder="Hospedagem: nome e endereço">
-    <input class="inp" data-i="checkin" placeholder="Check-in (horário) e contato">
+    <input class="inp" data-i="checkin" placeholder="Check-in e check-out">
     <input class="inp" data-i="emerg" placeholder="Contato de emergência">
     <div class="flex gap-2 flex-wrap pt-1" id="infoLinks"></div>
   </div>
   <div class="card space-y-3">
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2"><span id="gd" class="w-3 h-3 rounded-full bg-amber-500"></span><span id="gt" class="text-xs">GPS desligado</span></div>
-      <button class="btn" onclick="gps()">📍 Atualizar</button>
+      <div class="flex items-center gap-2"><span id="gd" class="w-3 h-3 rounded-full bg-amber-500"></span><span id="gt" class="text-xs">Localização desligada</span></div>
+      <button class="btn" onclick="gps()">📍 Ativar</button>
     </div>
     <div class="grid grid-cols-3 gap-2 text-xs">
       <div class="rounded-xl bg-slate-950 border border-slate-800 p-2"><span class="mut block text-[10px]">Lat</span><b id="la" class="font-mono">-</b></div>
@@ -158,337 +151,223 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
 <nav style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#0f172af2;backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:.4rem .35rem calc(.4rem + env(safe-area-inset-bottom,0px))">
   <div class="max-w-md mx-auto grid grid-cols-6 gap-0.5" id="nav"></div>
 </nav>
-
 <script>
 const K='cabofrio_v2';
-const D={
-  dep:'2026-11-22T03:00',
-  stops:{},
-  days:{},
-  items:{},
-  custom:[],
-  exp:[],
-  info:{
-    hotel:'Hotel Sesc Cabo Frio, Cabo Frio - RJ',
-    checkin:'Check-in Dom ~14h–15h · Check-out Qua ~11h'
-  },
-  cfg:{km:600,kml:12,pr:6,rt:true}
-};
-let S=JSON.parse(JSON.stringify(D));
-try{
-  const r=localStorage.getItem(K);
-  if(r){
-    const o=JSON.parse(r);
-    S=Object.assign(S,o);
-    S.cfg=Object.assign({},D.cfg,o.cfg||{});
-    S.info=Object.assign({},D.info,o.info||{});
-    S.days=S.days||{};
-  }
-}catch(e){}
+const D={dep:'2026-11-22T03:00',back:'2026-11-25T12:30',way:'ida',stops:{},days:{},items:{},custom:[],exp:[],
+ info:{hotel:'Hotel Sesc Cabo Frio, Cabo Frio - RJ',checkin:'Check-in Dom ~14h–15h · Check-out Qua ~11h'},cfg:{km:600,kml:12,pr:6,rt:true}};
+let S=JSON.parse(JSON.stringify(D)),me=null,watchId=null,mapV=null,dayV=null;
+try{const r=localStorage.getItem(K);if(r){const o=JSON.parse(r);S=Object.assign(S,o);S.cfg=Object.assign({},D.cfg,o.cfg||{});S.info=Object.assign({},D.info,o.info||{});S.days=S.days||{};S.back=S.back||D.back;S.way=S.way||'ida'}}catch(e){}
 const $=i=>document.getElementById(i);
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const R=v=>'R$ '+(+v||0).toFixed(2).replace('.',',');
 const hm=d=>d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-const dep=()=>{const d=new Date(S.dep);return isNaN(d)?new Date(2026,10,21,3,0):d};
+const dt=d=>d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})+' '+hm(d);
+const rad=Math.PI/180;
+const hav=(a,b)=>{const x=Math.sin((b.lat-a.lat)*rad/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin((b.lon-a.lon)*rad/2)**2;return 12742*Math.asin(Math.sqrt(x))};
+const dep=()=>{const d=new Date(S.dep);return isNaN(d)?new Date(2026,10,22,3,0):d};
+const back=()=>{const d=new Date(S.back);return isNaN(d)?new Date(2026,10,25,12,30):d};
+const mapsQ=q=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(q);
+const wazeQ=q=>'https://waze.com/ul?q='+encodeURIComponent(q)+'&navigate=yes';
+const pills=(l,c,f)=>l.map(x=>`<button class="pill ${x[0]==c?'on':''}" onclick="${f}('${x[0]}')">${x[1]}</button>`).join('');
 
-const STOPS=[
- {n:'Saída: Santa Luzia (MG)',km:0,off:0,q:'Santa Luzia, MG',tip:'Tanque cheio, cintos, GPS e Maps offline prontos.'},
- {n:'Conselheiro Lafaiete (MG)',km:115,off:90,q:'Conselheiro Lafaiete, MG',tip:'Primeiro café, banheiro e esticar as pernas.'},
- {n:'Juiz de Fora (MG)',km:285,off:225,q:'Juiz de Fora, MG',tip:'Parada principal: lanche reforçado e abastecer. Depois vem a descida da serra.'},
- {n:'Início do Arco Metropolitano (RJ)',km:470,off:375,q:'Arco Metropolitano BR-493 Duque de Caxias, RJ',tip:'Respire, confira o GPS e entre na via de contorno, longe do centro do Rio.'},
- {n:'Cabo Frio (RJ)',km:600,off:510,q:'Cabo Frio, RJ',tip:'Chegada! Guarde as fotos do carro para a devolução.'}
-];
-
+/* ---------- DADOS ---------- */
+const SL={n:'Santa Luzia (MG)',lat:-19.7696,lon:-43.8514},CL={lat:-20.6603,lon:-43.7861},JF={lat:-21.7642,lon:-43.3503},AR={lat:-22.6585,lon:-43.2540},CF={lat:-22.879,lon:-42.0187};
+const ROUTES={
+ ida:{label:'Ida',stops:[
+  {n:'Saída: Santa Luzia (MG)',km:0,off:0,...SL,q:'Santa Luzia, MG',tip:'Tanque cheio, cintos, cadeirinhas, GPS e Maps offline prontos.'},
+  {n:'Conselheiro Lafaiete (MG)',km:115,off:90,...CL,q:'Conselheiro Lafaiete, MG',tip:'Primeiro café, banheiro e esticar as pernas.'},
+  {n:'Juiz de Fora (MG)',km:285,off:225,...JF,q:'Juiz de Fora, MG',tip:'Parada principal: lanche reforçado e abastecer. Depois vem a descida da serra.'},
+  {n:'Início do Arco Metropolitano (RJ)',km:470,off:375,...AR,q:'Arco Metropolitano BR-493 Duque de Caxias, RJ',tip:'Respire, confira o GPS e entre na via de contorno, longe do centro do Rio.'},
+  {n:'Cabo Frio (RJ)',km:600,off:510,...CF,q:'Hotel Sesc Cabo Frio, RJ',tip:'Chegada! Guarde as fotos do carro para a devolução.'}]},
+ volta:{label:'Volta',stops:[
+  {n:'Saída: Cabo Frio (RJ)',km:0,off:0,...CF,q:'Cabo Frio, RJ',tip:'Check-out feito, tanque cheio, lanches e brinquedos à mão. Confira as cadeirinhas.'},
+  {n:'Arco Metropolitano (RJ)',km:130,off:135,...AR,q:'Arco Metropolitano BR-493 Duque de Caxias, RJ',tip:'Primeira parada: fralda, mamadeira/lanche e esticar as pernas.'},
+  {n:'Juiz de Fora (MG)',km:315,off:285,...JF,q:'Juiz de Fora, MG',tip:'Parada principal: jantar cedo e abastecer. Daqui em diante pode ser noite: atenção redobrada na serra.'},
+  {n:'Conselheiro Lafaiete (MG)',km:485,off:420,...CL,q:'Conselheiro Lafaiete, MG',tip:'Último café e banheiro. Se as crianças dormirem, pare só se precisar.'},
+  {n:'Chegada: Santa Luzia (MG)',km:600,off:510,...SL,q:'Santa Luzia, MG',tip:'Chegou! Confirme local e horário de devolução do carro da Localiza.'}]}
+};
 const TRIP_DAYS=[
- {
-  id:'dom',
-  short:'Dom',
-  title:'Domingo · Chegada e Pôr do Sol',
-  sub:'Aclimatação leve sem precisar tirar o carro da garagem',
-  items:[
-   {
-    id:'d1',
-    time:'~14h–15h',
-    badge:'Check-in',
-    title:'Hotel Sesc Cabo Frio',
-    desc:'Acomodar as malas e descansar um pouco da estrada. O hotel fica a ~500m da praia: dá para ir caminhando com o carrinho da Elisa.',
-    q:'Hotel Sesc Cabo Frio, Cabo Frio, RJ'
-   },
-   {
-    id:'d2',
-    time:'~15h30–17h',
-    badge:'Praia + História',
-    title:'Canto esquerdo da Praia do Forte e Forte de São Mateus',
-    desc:'O canto esquerdo é a parte mais protegida das ondas, ideal para o Josué e a Elisa molharem os pés. Atenção: o Forte de São Mateus fecha às 17h — entrem no forte primeiro e depois desçam para as pedras e o mirante ao lado.',
-    q:'Forte de São Mateus, Cabo Frio, RJ'
-   },
-   {
-    id:'d3',
-    time:'Fim de tarde',
-    badge:'Pôr do sol',
-    title:'Pôr do sol no Forte de São Mateus (ou Morro da Guia)',
-    desc:'Nas pedras e no mirante ao lado do forte, o sol se põe atrás da cidade iluminando toda a curva da Praia do Forte. Alternativa de carro: Morro da Guia (vista 360° da cidade, Canal do Itajuru e Lagoa de Araruama; estacionamento pago e subida final íngreme).',
-    q:'Morro da Guia, Cabo Frio, RJ'
-   }
-  ]
- },
- {
-  id:'seg',
-  short:'Seg',
-  title:'Segunda · Arraial do Cabo sem perrengue',
-  sub:'Saída cedo com mochila leve, tartarugas na Prainha e noite tranquila',
-  items:[
-   {
-    id:'s1',
-    time:'Manhã (7h30–8h)',
-    badge:'Destaque',
-    title:'Prainhas do Pontal do Atalaia',
-    desc:'Suba pela Rua Pontal do Atalaia (ou táxi credenciado se a cota de carros particulares lotar), pare rápido no Mirante e desça a escadaria (~255 degraus). Leve a Elisa no canguru/sling (não dá de carrinho) e vá de mão dada com o Josué. Evite a trilha a pé. Leve só 1 mochila leve + canga grande (quiosques cobram consumação alta) e deixe o resto no carro.',
-    q:'Escadaria das Prainhas do Pontal do Atalaia, Arraial do Cabo, RJ'
-   },
-   {
-    id:'s2',
-    time:'Almoço (~12h)',
-    badge:'Alerta segunda',
-    title:'Calamares (Praia Grande) ou Pousada da Prainha',
-    desc:'Importante: Saint Tropez e Bistrô da Praia (Praia dos Anjos) NÃO abrem no almoço de segunda-feira (só às 18h). O Calamares (orla da Praia Grande) abre diariamente às 12h, pé na areia e pratos fartos para dividir em família. Outra opção prática é almoçar já na Pousada da Prainha.',
-    q:'Calamares Praia Grande, Arraial do Cabo, RJ'
-   },
-   {
-    id:'s3',
-    time:'Tarde (até ~15h)',
-    badge:'Tartarugas 🐢',
-    title:'Prainha (Arraial do Cabo)',
-    desc:'Acesso plano da rua até a areia (ótimo para carrinho), mar calmo como piscina e boa estrutura. Dica de vida marinha: fiquem no canto direito (perto das pedras e do píer) — é muito comum ver tartarugas marinhas subindo para respirar bem pertinho da margem.',
-    q:'Prainha, Arraial do Cabo, RJ'
-   },
-   {
-    id:'s4',
-    time:'Noite',
-    badge:'Jantar leve',
-    title:'Feira de Artesanato da Praia do Forte ou Boulevard Canal',
-    desc:'Após descansar no hotel no fim da tarde, caminhada com carrinho até a Feira de Artesanato na orla (abre às 17h; tapioca, crepe, pastel) ou 5 min de carro até o Boulevard Canal (calçadão largo e plano à beira d’água com vários restaurantes).',
-    q:'Boulevard Canal, Cabo Frio, RJ'
-   }
-  ]
- },
- {
-  id:'ter',
-  short:'Ter',
-  title:'Terça · Águas quentinhas, Passagem e Gelato',
-  sub:'Melhor dia para bebês + noite a dois com babá eletrônica no Sesc',
-  items:[
-   {
-    id:'t1',
-    time:'Manhã cedo',
-    badge:'Melhor p/ bebês',
-    title:'Ilha do Japonês (+ opção Praia das Conchas)',
-    desc:'Água rasinha, sem ondas, cristalina e bem mais quentinha que nas praias abertas. Na maré baixa atravessa andando (água na canela/joelho); na cheia há barquinhos (2 min). Chegando cedo garante sombra natural das árvores. Se saírem cedo da ilha, vale passar na Praia das Conchas (no mesmo caminho), que tem piscininhas naturais entre as pedras com peixinhos e tartarugas.',
-    q:'Ilha do Japonês, Cabo Frio, RJ'
-   },
-   {
-    id:'t2',
-    time:'Almoço (~12h)',
-    badge:'Charme histórico',
-    title:'Bairro da Passagem: Arcos do Canal ou José Restaurante',
-    desc:'Fica logo do outro lado do canal em relação à Ilha do Japonês, com ruas de paralelepípedo e casarões coloniais. Opções abertas às 12h: Arcos do Canal (de frente para o canal, tem aquário gigante de 4.000 L que encanta crianças) ou José Restaurante (proteína na brasa + acompanhamentos à escolha, fácil de adaptar para as crianças).',
-    q:'Bairro da Passagem, Cabo Frio, RJ'
-   },
-   {
-    id:'t3',
-    time:'Tarde',
-    badge:'Sorvete + Passeio',
-    title:'Gelato na Passagem e passeio leve',
-    desc:'Sorvete artesanal na Giulietta Gelato (abre às 14h, cantinho infantil), San Lorenzo (13h), Felicitá (13h) ou José Gelato (14h). Passeios mais confortáveis que o buggy: Jardineira/Trenzinho panorâmico (sai da Praia do Forte, é coberto) ou passeio curto de barco (30–45 min) pelo Canal do Itajuru (águas paradas, sombra e sem enjoo).',
-    q:'Giulietta Gelato, Bairro da Passagem, Cabo Frio, RJ'
-   },
-   {
-    id:'t4',
-    time:'Noite',
-    badge:'Jantar a dois 🥂',
-    title:'Jantar na área de convivência do Hotel Sesc',
-    desc:'Deixar o Josué e a Elisa dormirem cedo para a viagem de volta. Testem o alcance da babá eletrônica antes no quarto e confirmem na recepção o horário do restaurante da área de convivência do Sesc.',
-    q:'Hotel Sesc Cabo Frio, Cabo Frio, RJ'
-   }
-  ]
- },
- {
-  id:'qua',
-  short:'Qua',
-  title:'Quarta · Manhã livre, Check-out e Volta',
-  sub:'Aproveitar o hotel sem pressa, almoçar bem e pegar a estrada',
-  items:[
-   {
-    id:'q1',
-    time:'Manhã (até 11h)',
-    badge:'Despedida',
-    title:'Piscina do Sesc ou Praia do Forte + Check-out',
-    desc:'Aproveitar a piscina/toboágua do hotel ou uma última caminhada na Praia do Forte, arrumar as malas com calma e fazer o check-out por volta das 11h.',
-    q:'Praia do Forte, Cabo Frio, RJ'
-   },
-   {
-    id:'q2',
-    time:'Almoço (~11h30–12h)',
-    badge:'Antes da estrada',
-    title:'Restaurante Tia Maluca ou Restaurante Picolino',
-    desc:'Na orla do canal, práticos antes da viagem: Tia Maluca (abre às 11h30, clássico familiar rápido e farto, famoso pela picanha na chapa) ou Restaurante Picolino (abre às 12h, casarão histórico com varanda para o canal). Depois, pé na estrada!',
-    q:'Restaurante Tia Maluca, Cabo Frio, RJ'
-   }
-  ]
- }
+ {id:'dom',short:'Dom',title:'Domingo · Chegada e Pôr do Sol',sub:'Aclimatação leve, sem precisar tirar o carro da garagem',items:[
+  {id:'d1',h:14.5,time:'~14h–15h',badge:'Check-in',title:'Hotel Sesc Cabo Frio',desc:'Acomodar as malas e descansar da estrada. O hotel fica a ~500 m da praia: dá para ir caminhando com o carrinho da Elisa.',q:'Hotel Sesc Cabo Frio, Cabo Frio, RJ',lat:-22.8805,lon:-42.0215},
+  {id:'d2',h:15.5,time:'~15h30–17h',badge:'Praia + História',title:'Praia do Forte e Forte de São Mateus',desc:'O canto esquerdo é o mais protegido das ondas, ideal para o Josué e a Elisa molharem os pés. O forte fecha às 17h: entrem nele primeiro e depois desçam para as pedras e o mirante.',q:'Forte de São Mateus, Cabo Frio, RJ',lat:-22.8745,lon:-42.012},
+  {id:'d3',h:17.3,time:'Fim de tarde',badge:'Pôr do sol',title:'Pôr do sol no Forte (ou Morro da Guia)',desc:'Nas pedras ao lado do forte o sol se põe atrás da cidade iluminando a curva da Praia do Forte. Alternativa de carro: Morro da Guia (vista 360°; estacionamento pago e subida final íngreme).',q:'Morro da Guia, Cabo Frio, RJ',lat:-22.889,lon:-42.0265}]},
+ {id:'seg',short:'Seg',title:'Segunda · Arraial do Cabo sem perrengue',sub:'Saída cedo com mochila leve, tartarugas na Prainha e noite tranquila',items:[
+  {id:'s1',h:7.5,time:'Manhã (7h30–8h)',badge:'Destaque',title:'Prainhas do Pontal do Atalaia',desc:'Suba pela Rua Pontal do Atalaia (ou táxi credenciado se a cota de carros lotar), pare no Mirante e desça a escadaria (~255 degraus). Elisa no canguru/sling (não dá de carrinho) e Josué de mão dada. Leve 1 mochila leve + canga grande (quiosques cobram consumação alta).',q:'Escadaria das Prainhas do Pontal do Atalaia, Arraial do Cabo, RJ',lat:-22.97,lon:-42.013},
+  {id:'s2',h:12,time:'Almoço (~12h)',badge:'Alerta segunda',title:'Calamares (Praia Grande) ou Pousada da Prainha',desc:'Saint Tropez e Bistrô da Praia (Praia dos Anjos) NÃO abrem no almoço de segunda (só às 18h). O Calamares abre diariamente às 12h, pé na areia e pratos fartos para dividir. Outra opção prática é almoçar na Pousada da Prainha.',q:'Calamares Praia Grande, Arraial do Cabo, RJ',lat:-22.9675,lon:-42.023},
+  {id:'s3',h:13.5,time:'Tarde (até ~15h)',badge:'Tartarugas 🐢',title:'Prainha (Arraial do Cabo)',desc:'Acesso plano até a areia (ótimo para carrinho), mar calmo como piscina. Fiquem no canto direito (perto das pedras e do píer): é comum ver tartarugas subindo para respirar bem perto da margem.',q:'Prainha, Arraial do Cabo, RJ',lat:-22.964,lon:-42.024},
+  {id:'s4',h:18,time:'Noite',badge:'Jantar leve',title:'Feira de Artesanato do Forte ou Boulevard Canal',desc:'Depois de descansar no hotel: caminhada com carrinho até a Feira de Artesanato na orla (abre às 17h; tapioca, crepe, pastel) ou 5 min de carro até o Boulevard Canal (calçadão largo e plano à beira d’água com vários restaurantes).',q:'Boulevard Canal, Cabo Frio, RJ',lat:-22.8775,lon:-42.0165}]},
+ {id:'ter',short:'Ter',title:'Terça · Águas quentinhas, Passagem e Gelato',sub:'Melhor dia para bebês + noite a dois com babá eletrônica no Sesc',items:[
+  {id:'t1',h:8,time:'Manhã cedo',badge:'Melhor p/ bebês',title:'Ilha do Japonês (+ Praia das Conchas)',desc:'Água rasinha, sem ondas e mais quentinha que nas praias abertas. Na maré baixa atravessa andando; na cheia há barquinhos (2 min). Chegando cedo garante sombra. Na saída, a Praia das Conchas tem piscininhas naturais com peixinhos e tartarugas.',q:'Ilha do Japonês, Cabo Frio, RJ',lat:-22.883,lon:-42.019},
+  {id:'t2',h:12,time:'Almoço (~12h)',badge:'Charme histórico',title:'Passagem: Arcos do Canal ou José Restaurante',desc:'Do outro lado do canal, com ruas de paralelepípedo e casarões coloniais. Arcos do Canal (de frente para o canal, aquário gigante de 4.000 L que encanta crianças) ou José Restaurante (proteína na brasa + acompanhamentos à escolha).',q:'Bairro da Passagem, Cabo Frio, RJ',lat:-22.885,lon:-42.021},
+  {id:'t3',h:14,time:'Tarde',badge:'Sorvete + Passeio',title:'Gelato na Passagem e passeio leve',desc:'Giulietta Gelato (14h, cantinho infantil), San Lorenzo (13h), Felicitá (13h) ou José Gelato (14h). Passeios confortáveis: Jardineira/Trenzinho panorâmico (coberto, sai da Praia do Forte) ou barco curto (30–45 min) no Canal do Itajuru.',q:'Giulietta Gelato, Bairro da Passagem, Cabo Frio, RJ',lat:-22.8855,lon:-42.0205},
+  {id:'t4',h:19,time:'Noite',badge:'Jantar a dois 🥂',title:'Jantar na área de convivência do Hotel Sesc',desc:'Josué e Elisa dormem cedo para a viagem de volta. Testem o alcance da babá eletrônica no quarto e confirmem na recepção o horário do restaurante.',q:'Hotel Sesc Cabo Frio, Cabo Frio, RJ',lat:-22.8805,lon:-42.0215}]},
+ {id:'qua',short:'Qua',title:'Quarta · Manhã livre, Check-out e Volta',sub:'Aproveitar o hotel sem pressa, almoçar bem e pegar a estrada',items:[
+  {id:'q1',h:8,time:'Manhã (até 11h)',badge:'Despedida',title:'Piscina do Sesc ou Praia do Forte + Check-out',desc:'Piscina/toboágua do hotel ou uma última caminhada na Praia do Forte, malas com calma e check-out por volta das 11h.',q:'Praia do Forte, Cabo Frio, RJ',lat:-22.8805,lon:-42.0215},
+  {id:'q2',h:11.5,time:'Almoço (~11h30–12h)',badge:'Antes da estrada',title:'Tia Maluca ou Restaurante Picolino',desc:'Na orla do canal: Tia Maluca (abre 11h30, clássico familiar rápido e farto, famosa pela picanha na chapa) ou Picolino (abre 12h, casarão histórico com varanda para o canal). Depois, pé na estrada pela aba Estrada › Volta!',q:'Restaurante Tia Maluca, Cabo Frio, RJ',lat:-22.881,lon:-42.021}]}
 ];
-
 const EXTRA_TIPS=[
- {icon:'🌅',title:'Onde ver o nascer do sol',txt:'Na própria Praia do Forte e no Forte de São Mateus (a 500m do hotel). A costa é voltada para o leste e o sol nasce por volta das 5h45–6h surgindo atrás do forte.'},
- {icon:'🐋',title:'O que esperar no fim de novembro',txt:'Baleias-jubarte já migraram (pico é ago–out; não vale barco para isso). A vantagem é a pré-temporada tranquila de seg a qua e muitas tartarugas na Prainha e Praia das Conchas. Lembre-se que a água do mar aberto é bem gelada (ressurgência).'},
- {icon:'🏖️',title:'Praia extra imperdível',txt:'Praia das Conchas (ao lado do Peró, no mesmo caminho da Ilha do Japonês): enseada fechada de águas calmas e piscininhas naturais nas pedras onde as crianças veem peixinhos e tartarugas de perto.'},
- {icon:'🚙',title:'Sobre o passeio de buggy',txt:'Buggies não têm fixação para cadeirinha/bebê conforto (Elisa iria no colo), pegam muito vento/sol por 2h30–3h e hoje é proibido subir nas dunas de buggy (caminhada de 15–20 min). Se forem, prefiram 15h30 com chapéu de cordinha.'}
+ {icon:'🌅',title:'Onde ver o nascer do sol',txt:'Na Praia do Forte e no Forte de São Mateus (a 500 m do hotel). A costa é voltada para o leste e o sol nasce por volta das 5h45–6h, surgindo atrás do forte.'},
+ {icon:'🐋',title:'O que esperar no fim de novembro',txt:'As baleias-jubarte já migraram (pico em ago–out; não vale barco para isso). A vantagem é a pré-temporada tranquila de seg a qua e muitas tartarugas.'}
 ];
-
 const GROUPS={
  'Documentos':['CNH física ou digital','Contrato e documentos do carro Localiza','Reserva da hospedagem','Documentos de todos os passageiros'],
  'Carro (na retirada)':['Fotografar e filmar o carro todo','Conferir estepe, macaco e triângulo','Conferir nível de combustível do contrato','Calibragem dos pneus'],
- 'Crianças & Praia':['Canguru ou sling (essencial p/ escadaria do Atalaia)','Carrinho de bebê (Praia do Forte, Prainha e orla)','Babá eletrônica + carregador','Chapéu com cordinha, protetor solar e roupas UV','Canga grande (economiza consumação no Atalaia)'],
  'Eletrônicos':['Power bank 20.000 mAh carregado','Cabo USB bom para a multimídia','Google Maps offline baixado','Suporte de celular no carro'],
- 'Conforto':['Água e petiscos fáceis no console','Cartão e dinheiro para pedágio','Remédios básicos (febre, enjoo, curativos)','Casacos para a madrugada']
+ 'Conforto':['Água e petiscos fáceis no console','Cartão e dinheiro para pedágio','Remédios e protetor solar','Casacos para a madrugada'],
+ 'Josué e Elisa':['Fraldas, lenços e troca de roupa','Carrinho e canguru/sling','Babá eletrônica e carregador','Canga grande e protetor solar infantil','Brinquedos e lanches para a estrada']
 };
-const TABS=[['home','🏠','Início'],['rota','🛣️','Estrada'],['dias','🏖️','Roteiro'],['mala','🎒','Checklist'],['gastos','💰','Gastos'],['sos','🆘','SOS']];
-
-let dayFilter='all';
-
-function tab(t){
- document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+t));
- document.querySelectorAll('.nb').forEach(e=>e.classList.toggle('on',e.dataset.t===t));
- window.scrollTo({top:0});
-}
+const TABS=[['home','🏠','Agora'],['rota','🧭','Estrada'],['dias','🏖️','Cabo Frio'],['mapa','🗺️','Mapa'],['mala','🎒','Mala'],['mais','➕','Mais']];
 $('nav').innerHTML=TABS.map(t=>`<button class="nb" data-t="${t[0]}" onclick="tab('${t[0]}')"><b>${t[1]}</b>${t[2]}</button>`).join('');
 
-function setDep(v){if(v){S.dep=v;save();renderStops();home()}}
+/* ---------- LÓGICA DE TEMPO E POSIÇÃO ---------- */
+const startOf=w=>w==='ida'?dep():back();
+function expected(w,now){const P=ROUTES[w].stops,st=startOf(w),m=(now-st)/6e4,L=P[P.length-1];
+ if(m<=0)return{s:'before',i:0,km:0,pt:P[0]};
+ if(m>=L.off)return{s:'after',i:P.length-1,km:L.km,pt:L};
+ let i=0;while(P[i+1].off<m)i++;const a=P[i],b=P[i+1],f=(m-a.off)/(b.off-a.off);
+ return{s:'on',i,f,km:a.km+f*(b.km-a.km),pt:{lat:a.lat+f*(b.lat-a.lat),lon:a.lon+f*(b.lon-a.lon)},eta:new Date(st.getTime()+b.off*6e4)}}
+function project(w,p){const P=ROUTES[w].stops,kx=111.32*Math.cos(p.lat*rad),ky=110.57;let best=null;
+ for(let i=0;i<P.length-1;i++){const a=P[i],b=P[i+1],ax=a.lon*kx,ay=a.lat*ky,dx=b.lon*kx-ax,dy=b.lat*ky-ay,px=p.lon*kx,py=p.lat*ky,
+  t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy||1))),d=Math.hypot(px-ax-t*dx,py-ay-t*dy);
+  if(!best||d<best.d)best={d,km:a.km+t*(b.km-a.km)}}return best}
+function phase(now){const iS=dep(),iE=new Date(iS.getTime()+510*6e4),vS=back(),vE=new Date(vS.getTime()+510*6e4);
+ return now<iS?'pre':now<=iE?'ida':now<vS?'cf':now<=vE?'volta':'fim'}
+function dayBase(i){const d=dep();return new Date(d.getFullYear(),d.getMonth(),d.getDate()+i)}
+function dayState(now){const out=[];TRIP_DAYS.forEach((day,di)=>{const b=dayBase(di).getTime();
+ day.items.forEach((it,k)=>{const s=b+it.h*36e5,nx=day.items[k+1],e=nx?b+nx.h*36e5:s+2*36e5;out.push({di,it,s,e,st:now<s?'next':now<e?'now':'past'})})});
+ let seenNext=false;out.forEach(o=>{if(o.st==='next'){if(!seenNext){seenNext=true}else o.st='later'}});return out}
+function todayIdx(now){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();for(let i=0;i<TRIP_DAYS.length;i++)if(dayBase(i).getTime()===d)return i;return -1}
 
-function dayTotal(){return TRIP_DAYS.reduce((a,d)=>a+d.items.length,0)}
-function dayDone(){return Object.values(S.days).filter(Boolean).length}
-
-function home(){
- const d=dep();
- $('dep').textContent=d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}).replace(/^./,c=>c.toUpperCase())+' às '+hm(d);
- $('depIn').value=S.dep;
- const ms=d-new Date();
- if(ms<=0){$('cd').innerHTML='<div class="col-span-4 text-lg font-bold ac">Boa viagem! 🌴</div>';$('chip').textContent='Em viagem'}
- else{const days=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
-  $('cd').innerHTML=[[days,'dias'],[h,'horas'],[m,'min']].map(x=>`<div class="rounded-xl bg-slate-950 border border-slate-800 py-2"><div class="text-2xl font-black ac">${x[0]}</div><div class="text-[10px] mut">${x[1]}</div></div>`).join('')+'<div class="rounded-xl bg-slate-950 border border-slate-800 py-2 flex items-center justify-center text-xl">🌊</div>';
-  $('chip').textContent=days===0?'É hoje!':'Faltam '+days+' d'}
- const si=Object.values(S.stops).filter(Boolean).length,it=itemsDone(),tot=itemsTotal(),dd=dayDone(),dt=dayTotal();
+/* ---------- RENDER: AGORA ---------- */
+function renderNow(){
+ const now=new Date(),ph=phase(now);let h='',chip='';
+ const gpsBtn=me?'':'<button class="btn w-full mt-3" onclick="gps()">📍 Ativar localização para comparar</button>';
+ const meLine=t=>me?`<div class="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-xs mt-2"><b class="ac">🟢 Onde você está:</b> ${t}</div>`:'';
+ if(ph==='pre'){const ms=dep()-now,d=Math.floor(ms/864e5),hh=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);chip=d===0?'É hoje!':'Faltam '+d+' d';
+  h=`<div class="text-xs ac font-bold uppercase tracking-wider">Antes da viagem</div><div class="text-3xl font-black mt-1">${d}d ${hh}h ${m}min</div><p class="text-xs mut mt-1">Saída: ${dt(dep())}</p>
+  <div class="rounded-xl bg-slate-950 border border-slate-800 p-3 text-xs mt-3">✅ Próximo passo: checklist (${itemsDone()}/${itemsTotal()} itens)</div><button class="btn2 mt-2" onclick="tab('mala')">Abrir checklist</button>`}
+ else if(ph==='ida'||ph==='volta'){const e=expected(ph,now),P=ROUTES[ph].stops,nx=P[Math.min(e.i+1,P.length-1)];chip=ph==='ida'?'Na ida':'Na volta';
+  h=`<div class="text-xs ac font-bold uppercase tracking-wider">Na estrada · ${ROUTES[ph].label}</div>
+  <div class="text-lg font-bold mt-1">Previsto: entre ${esc(P[e.i].n)} e ${esc(nx.n)}</div>
+  <p class="text-xs mut mt-1">Km previsto ~${Math.round(e.km)} de 600 · próxima parada às ${e.eta?hm(e.eta):'--'}</p>
+  <div class="bar mt-2"><i style="width:${e.km/6}%"></i></div>
+  <div class="rounded-xl bg-slate-950 border border-slate-800 p-3 text-xs mt-3">💡 ${esc(nx.tip)}</div>`;
+  if(me){const p=project(ph,me),df=p.km-e.km;h+=meLine(`~km ${Math.round(p.km)} ${p.d>30?`(${Math.round(p.d)} km fora do trajeto)`:Math.abs(df)<5?'· dentro do previsto':df>0?`· ${Math.round(df)} km à frente do previsto`:`· ${Math.round(-df)} km atrás do previsto`}`)}
+  h+=gpsBtn+`<div class="flex gap-2 mt-3"><a class="btn2" target="_blank" rel="noopener" href="${mapsQ(nx.q)}">Maps</a><a class="btn2" target="_blank" rel="noopener" href="${wazeQ(nx.q)}">Waze</a><button class="btn2" onclick="goMap('${ph}')">Ver no mapa</button></div>`}
+ else if(ph==='cf'){const ds=dayState(now),cur=ds.find(o=>o.st==='now'),nxt=ds.find(o=>o.st==='next'),ti=todayIdx(now);chip=ti>=0?TRIP_DAYS[ti].short+' em Cabo Frio':'Em Cabo Frio';
+  const t=cur||nxt;
+  h=`<div class="text-xs ac font-bold uppercase tracking-wider">Em Cabo Frio · ${ti>=0?TRIP_DAYS[ti].title:''}</div>`;
+  if(t){h+=`<div class="text-xs mut mt-2">${cur?'AGORA':'PRÓXIMO'} · ${t.it.time}</div><div class="text-lg font-bold">${esc(t.it.title)}</div><p class="text-xs mut mt-1 leading-relaxed">${esc(t.it.desc)}</p>
+   <div class="flex gap-2 mt-3"><a class="btn2" target="_blank" rel="noopener" href="${mapsQ(t.it.q)}">Maps</a><a class="btn2" target="_blank" rel="noopener" href="${wazeQ(t.it.q)}">Waze</a><button class="btn2" onclick="goMap(${t.di})">Ver no mapa</button></div>`;
+   if(me)h+=meLine('a ~'+hav(me,t.it).toFixed(1)+' km desta parada')}
+  else h+='<p class="text-sm mt-2">Nada mais programado por hoje. Descansem! 😴</p>';
+  if(nxt&&cur)h+=`<div class="text-xs mut mt-3">Depois: ${nxt.it.time} · ${esc(nxt.it.title)}</div>`;
+  h+=gpsBtn}
+ else{chip='Concluída';h='<div class="text-lg font-bold">Viagem concluída 🎉</div><p class="text-xs mut mt-1">Bom descanso! Confira os gastos na aba Mais.</p>'}
+ $('now').innerHTML=h;$('chip').textContent=chip;
+ const steps=[['ida','🚗 Ida',dt(dep()),'ida'],['cf','🏖️ Cabo Frio','Dom a Qua','dias'],['volta','🏠 Volta',dt(back()),'volta']];
+ $('steps').innerHTML=steps.map(s=>{const on=ph===s[0]||(s[0]==='cf'&&ph==='cf');return`<button onclick="${s[3]==='dias'?"tab('dias')":`setWay('${s[3]}');tab('rota')`}" class="rounded-xl p-2 text-left border ${on?'border-emerald-400 bg-emerald-500/10':'border-slate-800 bg-slate-950'}"><div class="text-xs font-bold">${s[1]}</div><div class="text-[10px] mut mt-0.5">${s[2]}</div></button>`}).join('');
+ const cnt=w=>Object.keys(S.stops).filter(k=>k[0]===w[0]&&S.stops[k]).length,dd=Object.values(S.days).filter(Boolean).length,nd=TRIP_DAYS.reduce((a,d)=>a+d.items.length,0);
  const bar=(l,a,b)=>`<div><div class="flex justify-between text-xs mb-1"><span>${l}</span><span class="mut">${a}/${b}</span></div><div class="bar"><i style="width:${b?a/b*100:0}%"></i></div></div>`;
- $('prog').innerHTML=bar('Checklist de mala',it,tot)+bar('Paradas da estrada',si,STOPS.length)+bar('Roteiro Cabo Frio',dd,dt);
- const f=fuelCalc(),e=S.exp.reduce((a,x)=>a+x.v,0);
- const st=(a,b)=>`<div class="card !p-3"><div class="text-sm font-bold ac">${a}</div><div class="text-[10px] mut">${b}</div></div>`;
- $('stats').innerHTML=st('~'+STOPS[4].km+' km','Ida')+st(R(f.cost),'Combustível est.')+st(R(e),'Gasto real')}
+ $('prog').innerHTML=bar('Checklist',itemsDone(),itemsTotal())+bar('Paradas da ida',cnt('ida'),5)+bar('Atividades em Cabo Frio',dd,nd)+bar('Paradas da volta',cnt('volta'),5)}
 
-function renderStops(){
- const d=dep();
- $('stops').innerHTML=STOPS.map((s,i)=>{const t=new Date(d.getTime()+s.off*6e4),q=encodeURIComponent(s.q);
-  return `<div class="card ${S.stops[i]?'done':''}"><div class="flex gap-3"><div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 ac font-bold text-xs flex items-center justify-center flex-none">${i+1}</div>
-  <div class="flex-1"><h3 class="ttl text-sm font-bold">${s.n}</h3><p class="text-xs mut">~${hm(t)} · km ${s.km}</p>
-  <p class="text-xs mt-2 rounded-lg bg-slate-950 border border-slate-800 p-2">${s.tip}</p>
-  <div class="flex gap-2 mt-2 flex-wrap"><a class="btn2" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Maps</a><a class="btn2" target="_blank" rel="noopener" href="https://waze.com/ul?q=${q}&navigate=yes">Waze</a>
-  <label class="btn2 flex items-center gap-2 ml-auto"><input type="checkbox" ${S.stops[i]?'checked':''} onchange="togStop(${i},this.checked)"> Concluída</label></div></div></div></div>`}).join('');
- $('sc').textContent=Object.values(S.stops).filter(Boolean).length+'/'+STOPS.length+' concluídos'}
-function togStop(i,v){S.stops[i]=v;save();renderStops();home()}
+/* ---------- ESTRADA ---------- */
+function setWay(k){S.way=k;save();renderStops();renderNow()}
+function setWayDt(v){if(!v)return;if(S.way==='ida')S.dep=v;else S.back=v;save();renderStops();renderNow();renderMap()}
+function renderStops(){const w=S.way,P=ROUTES[w].stops,st=startOf(w),e=expected(w,new Date());
+ $('wayP').innerHTML=pills([['ida','🚗 Ida'],['volta','🏠 Volta']],w,'setWay');$('wayIn').value=w==='ida'?S.dep:S.back;
+ $('wayNote').textContent=w==='ida'?'Horários estimados a partir da saída, já com paradas. Distâncias aproximadas.':'Saída sugerida às 12h30, depois do check-out e do almoço. Chegada prevista ~'+hm(new Date(st.getTime()+510*6e4))+'. Sair mais cedo ajuda com as crianças e com a serra à noite.';
+ $('stops').innerHTML=P.map((s,i)=>{const k=w[0]+i,t=new Date(st.getTime()+s.off*6e4),here=e.s==='on'&&e.i===i,past=e.s==='after'||(e.s==='on'&&i<e.i);
+  return`<div class="card ${S.stops[k]?'done':''} ${here?'now':''}"><div class="flex gap-3"><div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 ac font-bold text-xs flex items-center justify-center flex-none">${i+1}</div>
+  <div class="flex-1"><div class="flex items-center gap-2 flex-wrap"><h3 class="ttl text-sm font-bold">${esc(s.n)}</h3>${here?'<span class="tag g">Trecho atual</span>':past?'<span class="tag">Já passou</span>':''}</div>
+  <p class="text-xs mut">~${hm(t)} · km ${s.km}</p><p class="text-xs mt-2 rounded-lg bg-slate-950 border border-slate-800 p-2">${esc(s.tip)}</p>
+  <div class="flex gap-2 mt-2 flex-wrap"><a class="btn2" target="_blank" rel="noopener" href="${mapsQ(s.q)}">Maps</a><a class="btn2" target="_blank" rel="noopener" href="${wazeQ(s.q)}">Waze</a>
+  <label class="btn2 flex items-center gap-2 ml-auto"><input type="checkbox" ${S.stops[k]?'checked':''} onchange="togStop('${k}',this.checked)"> Concluída</label></div></div></div></div>`}).join('');
+ $('sc').textContent=Object.keys(S.stops).filter(k=>k[0]===w[0]&&S.stops[k]).length+'/5 concluídas'}
+function togStop(k,v){S.stops[k]=v;save();renderStops();renderNow()}
 
-function setDayFilter(f){dayFilter=f;renderDays()}
-function togDay(id,v){S.days[id]=v;save();renderDays();home()}
-function renderDays(){
- const filters=[['all','Todos'],...TRIP_DAYS.map(d=>[d.id,d.short]),['dicas','Dicas']];
- $('dayFilters').innerHTML=filters.map(f=>`<button type="button" class="pill ${dayFilter===f[0]?'on':''}" onclick="setDayFilter('${f[0]}')">${f[1]}</button>`).join('');
- $('dc').textContent=dayDone()+'/'+dayTotal()+' feitos';
- let html='';
- if(dayFilter!=='dicas'){
-  const list=dayFilter==='all'?TRIP_DAYS:TRIP_DAYS.filter(d=>d.id===dayFilter);
-  html+=list.map(day=>`
-   <div class="space-y-2.5">
-    <div class="px-1 pt-1">
-     <h3 class="text-sm font-bold ac">${esc(day.title)}</h3>
-     <p class="text-[11px] mut">${esc(day.sub)}</p>
-    </div>
-    ${day.items.map(it=>{
-     const q=encodeURIComponent(it.q);
-     const done=!!S.days[it.id];
-     return `<div class="card ${done?'done':''}">
-      <div class="flex items-center justify-between gap-2 text-[11px]">
-       <span class="font-bold ac">${esc(it.time)}</span>
-       <span class="px-2 py-0.5 rounded-full bg-slate-950 border border-slate-800 mut">${esc(it.badge)}</span>
-      </div>
-      <h4 class="ttl text-sm font-bold mt-1">${esc(it.title)}</h4>
-      <p class="text-xs mut mt-1.5 leading-relaxed">${esc(it.desc)}</p>
-      <div class="flex gap-2 mt-3 flex-wrap items-center">
-       <a class="btn2" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Maps</a>
-       <a class="btn2" target="_blank" rel="noopener" href="https://waze.com/ul?q=${q}&navigate=yes">Waze</a>
-       <label class="btn2 flex items-center gap-2 ml-auto"><input type="checkbox" ${done?'checked':''} onchange="togDay('${it.id}',this.checked)"> Feito</label>
-      </div>
-     </div>`;
-    }).join('')}
-   </div>`).join('');
- }
- if(dayFilter==='all'||dayFilter==='dicas'){
-  html+=`<div class="space-y-2.5 pt-1">
-   <div class="px-1">
-    <h3 class="text-sm font-bold ac">Dicas & Perguntas Frequentes</h3>
-    <p class="text-[11px] mut">Nascer do sol, temporada, praia extra e passeios com crianças</p>
-   </div>
-   ${EXTRA_TIPS.map(t=>`<div class="card text-xs space-y-1 leading-relaxed">
-    <div class="font-bold text-slate-100">${t.icon} ${esc(t.title)}</div>
-    <p class="mut">${esc(t.txt)}</p>
-   </div>`).join('')}
-   <a class="btn2 w-full text-center block" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent('Praia das Conchas, Cabo Frio, RJ')}">🗺️ Ver Praia das Conchas no Maps</a>
-  </div>`;
- }
- $('dayPlan').innerHTML=html;
-}
+/* ---------- CABO FRIO ---------- */
+function setDay(k){dayV=k;renderDays()}
+function renderDays(){const now=new Date(),ti=todayIdx(now);if(dayV===null)dayV=ti>=0?String(ti):'0';
+ $('dayFilters').innerHTML=pills([...TRIP_DAYS.map((d,i)=>[String(i),d.short+' '+dayBase(i).getDate()]),['all','Todos']],dayV,'setDay');
+ const ds=dayState(now);let h='';
+ TRIP_DAYS.forEach((day,di)=>{if(dayV!=='all'&&dayV!==String(di))return;
+  h+=`<div class="px-1 pt-1"><h3 class="text-sm font-bold">${day.title}</h3><p class="text-[11px] mut">${day.sub}</p></div>`;
+  h+=day.items.map(it=>{const o=ds.find(x=>x.it===it),dn=S.days[it.id];
+   return`<div class="card ${dn?'done':''} ${o.st==='now'?'now':''}"><div class="flex items-center gap-2 flex-wrap"><span class="tag ${o.st==='now'?'g':'a'}">${o.st==='now'?'AGORA':it.badge}</span><span class="text-[11px] mut">${it.time}</span>${o.st==='next'?'<span class="tag g">PRÓXIMO</span>':''}</div>
+   <h4 class="ttl text-sm font-bold mt-1.5">${esc(it.title)}</h4><p class="text-xs mut mt-1 leading-relaxed">${esc(it.desc)}</p>
+   <div class="flex gap-2 mt-2 flex-wrap"><a class="btn2" target="_blank" rel="noopener" href="${mapsQ(it.q)}">Maps</a><a class="btn2" target="_blank" rel="noopener" href="${wazeQ(it.q)}">Waze</a><button class="btn2" onclick="goMap(${di})">Mapa</button>
+   <label class="btn2 flex items-center gap-2 ml-auto"><input type="checkbox" ${dn?'checked':''} onchange="togDay('${it.id}',this.checked)"> Feito</label></div></div>`}).join('')});
+ $('dayPlan').innerHTML=h;
+ $('tips').innerHTML=EXTRA_TIPS.map(t=>`<div class="card text-xs leading-relaxed"><b>${t.icon} ${t.title}</b><p class="mut mt-1">${t.txt}</p></div>`).join('')}
+function togDay(id,v){S.days[id]=v;save();renderDays();renderNow()}
 
+/* ---------- MAPA ---------- */
+function goMap(v){mapV=String(v);tab('mapa')}
+function setMap(k){mapV=k;renderMap()}
+function svgMap(pts,exp,mp){
+ const all=pts.concat(exp?[exp]:[],mp?[mp]:[]),la=all.map(p=>p.lat),lo=all.map(p=>p.lon),a=Math.min(...la),b=Math.max(...la),c=Math.min(...lo),d=Math.max(...lo),k=Math.cos((a+b)/2*rad),
+ W=340,H=300,pd=30,dx=Math.max((d-c)*k,.001),dy=Math.max(b-a,.001),s=Math.min((W-2*pd)/dx,(H-2*pd)/dy),ox=(W-dx*s)/2,oy=(H-dy*s)/2,
+ X=p=>(ox+(p.lon-c)*k*s).toFixed(1),Y=p=>(oy+(b-p.lat)*s).toFixed(1);
+ let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="background:#020617;border-radius:12px"><polyline fill="none" stroke="#334155" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="${pts.map(p=>X(p)+','+Y(p)).join(' ')}"/>`;
+ pts.forEach((p,i)=>{g+=`<circle cx="${X(p)}" cy="${Y(p)}" r="10" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.5"/><text x="${X(p)}" y="${+Y(p)+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#e2e8f0">${i+1}</text>`});
+ if(exp)g+=`<circle cx="${X(exp)}" cy="${Y(exp)}" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>`;
+ if(mp)g+=`<circle cx="${X(mp)}" cy="${Y(mp)}" r="14" fill="#34d399" opacity=".3"><animate attributeName="r" values="8;18;8" dur="2s" repeatCount="indefinite"/></circle><circle cx="${X(mp)}" cy="${Y(mp)}" r="7" fill="#10b981" stroke="#fff" stroke-width="2"/>`;
+ return g+'</svg>'}
+function renderMap(){const now=new Date(),ph=phase(now);if(mapV===null)mapV=ph==='volta'?'volta':ph==='cf'&&todayIdx(now)>=0?String(todayIdx(now)):'ida';
+ $('mapP').innerHTML=pills([['ida','🚗 Ida'],...TRIP_DAYS.map((d,i)=>[String(i),d.short]),['volta','🏠 Volta']],mapV,'setMap');
+ const road=mapV==='ida'||mapV==='volta';let pts,exp=null;
+ if(road){pts=ROUTES[mapV].stops;const e=expected(mapV,now);if(e.s==='on')exp=e.pt}
+ else{const day=TRIP_DAYS[+mapV],ds=dayState(now).find(o=>o.di===+mapV&&o.st==='now');pts=day.items;if(ds)exp=ds.it}
+ let mp=me;if(mp&&hav(mp,pts[0])>800)mp=null;
+ $('map').innerHTML=svgMap(pts,exp,mp);
+ $('mapL').innerHTML=pts.map((p,i)=>`<div class="flex items-center gap-2 text-xs rounded-lg bg-slate-900 border border-slate-800 px-3 py-2"><b class="ac w-5">${i+1}</b><span class="flex-1">${esc(p.n||p.title)}</span>${me?`<span class="mut">${hav(me,p).toFixed(me&&hav(me,p)<50?1:0)} km</span>`:''}</div>`).join('');
+ const q=pts.map(p=>encodeURIComponent(p.q));$('mapG').href='https://www.google.com/maps/dir/?api=1&origin='+q[0]+'&destination='+q[q.length-1]+(q.length>2?'&waypoints='+q.slice(1,-1).join('%7C'):'')}
+
+/* ---------- CHECKLIST / GASTOS / DADOS ---------- */
 function itemsTotal(){return Object.values(GROUPS).flat().length+S.custom.length}
 function itemsDone(){return Object.keys(S.items).filter(k=>S.items[k]).length}
 function renderMala(){
- const row=(k,txt,del)=>`<label class="flex items-center gap-3 p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs"><input type="checkbox" ${S.items[k]?'checked':''} onchange="togItem('${k}',this.checked)"><span class="flex-1 ${S.items[k]?'mut line-through':''}">${esc(txt)}</span>${del?`<button type="button" class="mut px-1" onclick="event.preventDefault();delItem(${del.i})">✕</button>`:''}</label>`;
+ const row=(k,t,del)=>`<label class="flex items-center gap-3 p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs"><input type="checkbox" ${S.items[k]?'checked':''} onchange="togItem('${k}',this.checked)"><span class="flex-1 ${S.items[k]?'mut line-through':''}">${esc(t)}</span>${del?`<button type="button" class="mut px-1" onclick="event.preventDefault();delItem(${del.i})">✕</button>`:''}</label>`;
  $('groups').innerHTML=Object.entries(GROUPS).map(([g,l],gi)=>`<div class="card space-y-2"><h3 class="text-xs font-bold ac uppercase tracking-wider">${g}</h3>${l.map((t,i)=>row('g'+gi+'_'+i,t)).join('')}</div>`).join('');
  $('custom').innerHTML=S.custom.map((t,i)=>row('c'+i,t,{i})).join('')||'<p class="text-xs mut">Nada ainda.</p>';
  $('ic').textContent=itemsDone()+'/'+itemsTotal()+' itens'}
-function togItem(k,v){S.items[k]=v;save();renderMala();home()}
-function addItem(){const v=$('newItem').value.trim();if(!v)return;S.custom.push(v);$('newItem').value='';save();renderMala();home()}
-function delItem(i){S.custom.splice(i,1);Object.keys(S.items).forEach(k=>{if(k[0]==='c')delete S.items[k]});save();renderMala();home()}
-function resetChecks(){S.items={};save();renderMala();home()}
-
+function togItem(k,v){S.items[k]=v;save();renderMala();renderNow()}
+function addItem(){const v=$('newItem').value.trim();if(!v)return;S.custom.push(v);$('newItem').value='';save();renderMala();renderNow()}
+function delItem(i){S.custom.splice(i,1);Object.keys(S.items).forEach(k=>{if(k[0]==='c')delete S.items[k]});save();renderMala();renderNow()}
+function resetChecks(){S.items={};save();renderMala();renderNow()}
 function fuelCalc(){const c=S.cfg,km=(+c.km||0)*(c.rt?2:1),l=c.kml>0?km/c.kml:0;return{l,cost:l*(+c.pr||0)}}
-function cfg(){S.cfg={km:+$('cKm').value,kml:+$('cKml').value,pr:+$('cPr').value,rt:$('cRt').checked};save();fuel();home()}
+function cfg(){S.cfg={km:+$('cKm').value,kml:+$('cKml').value,pr:+$('cPr').value,rt:$('cRt').checked};save();fuel()}
 function fuel(){const f=fuelCalc();$('fuel').textContent=R(f.cost);$('liters').textContent='(~'+f.l.toFixed(0)+' L)'}
-function renderExp(){
- $('exp').innerHTML=S.exp.map((x,i)=>`<div class="flex items-center justify-between text-xs rounded-lg bg-slate-950 border border-slate-800 px-3 py-2"><span>${esc(x.d)}</span><span class="flex items-center gap-3"><b>${R(x.v)}</b><button class="mut" onclick="delExp(${i})">✕</button></span></div>`).join('')||'<p class="text-xs mut">Nenhum gasto ainda.</p>';
+function renderExp(){$('exp').innerHTML=S.exp.map((x,i)=>`<div class="flex items-center justify-between text-xs rounded-lg bg-slate-950 border border-slate-800 px-3 py-2"><span>${esc(x.d)}</span><span class="flex items-center gap-3"><b>${R(x.v)}</b><button class="mut" onclick="delExp(${i})">✕</button></span></div>`).join('')||'<p class="text-xs mut">Nenhum gasto ainda.</p>';
  $('expT').textContent=R(S.exp.reduce((a,x)=>a+x.v,0))}
-function addExp(){const d=$('eD').value.trim(),v=parseFloat($('eV').value);if(!d||isNaN(v))return;S.exp.push({d,v});$('eD').value=$('eV').value='';save();renderExp();home()}
-function delExp(i){S.exp.splice(i,1);save();renderExp();home()}
-
-function info(){
- document.querySelectorAll('[data-i]').forEach(e=>{e.value=S.info[e.dataset.i]||'';e.oninput=()=>{S.info[e.dataset.i]=e.value;save();links()}});links()}
+function addExp(){const d=$('eD').value.trim(),v=parseFloat($('eV').value);if(!d||isNaN(v))return;S.exp.push({d,v});$('eD').value=$('eV').value='';save();renderExp()}
+function delExp(i){S.exp.splice(i,1);save();renderExp()}
+function info(){document.querySelectorAll('[data-i]').forEach(e=>{e.value=S.info[e.dataset.i]||'';e.oninput=()=>{S.info[e.dataset.i]=e.value;save();links()}});links()}
 function links(){const h=(S.info.hotel||'').trim(),p=(S.info.loc||'').replace(/[^\d+]/g,'');
- $('infoLinks').innerHTML=(p?`<a class="btn2" href="tel:${p}">📞 Ligar Localiza</a>`:'')+(h?`<a class="btn2" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(h)}">🏨 Ir para a hospedagem</a>`:'')}
+ $('infoLinks').innerHTML=(p?`<a class="btn2" href="tel:${p}">📞 Ligar Localiza</a>`:'')+(h?`<a class="btn2" target="_blank" rel="noopener" href="${mapsQ(h)}">🏨 Ir para a hospedagem</a>`:'')}
 
+/* ---------- GPS ---------- */
 function gps(){
- const dot=$('gd'),tx=$('gt');
- if(!navigator.geolocation){tx.textContent='GPS não suportado';return}
- tx.textContent='Buscando sinal...';dot.className='w-3 h-3 rounded-full bg-amber-500 animate-ping';
- navigator.geolocation.getCurrentPosition(p=>{
-  const a=p.coords.latitude.toFixed(5),o=p.coords.longitude.toFixed(5);
-  $('la').textContent=a;$('lo').textContent=o;$('ac').textContent='~'+Math.round(p.coords.accuracy)+' m';
-  tx.textContent='Sinal GPS ativo';dot.className='w-3 h-3 rounded-full bg-emerald-500';
-  $('wa').href='https://wa.me/?text='+encodeURIComponent('Estou aqui agora: https://maps.google.com/?q='+a+','+o)},
- e=>{tx.textContent='Erro: '+e.message;dot.className='w-3 h-3 rounded-full bg-red-500'},{enableHighAccuracy:true,timeout:10000,maximumAge:0})}
+ if(!navigator.geolocation){$('gt').textContent='GPS não suportado';return}
+ if(watchId!==null)return;
+ $('gt').textContent='Buscando sinal...';$('gd').className='w-3 h-3 rounded-full bg-amber-500 animate-ping';
+ watchId=navigator.geolocation.watchPosition(p=>{me={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};
+  $('la').textContent=me.lat.toFixed(5);$('lo').textContent=me.lon.toFixed(5);$('ac').textContent='~'+Math.round(me.acc)+' m';
+  $('gt').textContent='Localização ativa';$('gd').className='w-3 h-3 rounded-full bg-emerald-500';
+  $('wa').href='https://wa.me/?text='+encodeURIComponent('Estou aqui agora: https://maps.google.com/?q='+me.lat.toFixed(5)+','+me.lon.toFixed(5));
+  renderNow();renderMap()},
+ e=>{watchId=null;$('gt').textContent='Erro: '+e.message;$('gd').className='w-3 h-3 rounded-full bg-red-500'},{enableHighAccuracy:true,timeout:15000,maximumAge:5000})}
 
+/* ---------- NAVEGAÇÃO / INIT ---------- */
+function tab(t){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+t));
+ document.querySelectorAll('.nb').forEach(e=>e.classList.toggle('on',e.dataset.t===t));if(t==='mapa')renderMap();window.scrollTo({top:0})}
 function resetAll(){if(confirm('Apagar tudo (checklists, gastos e dados)?')){S=JSON.parse(JSON.stringify(D));save();init()}}
-
-function init(){
- $('cKm').value=S.cfg.km;$('cKml').value=S.cfg.kml;$('cPr').value=S.cfg.pr;$('cRt').checked=!!S.cfg.rt;
- renderStops();renderDays();renderMala();renderExp();info();fuel();home();tab('home')}
-init();setInterval(home,30000);
+function refresh(){renderNow();renderStops();renderDays();renderMap()}
+function init(){$('cKm').value=S.cfg.km;$('cKml').value=S.cfg.kml;$('cPr').value=S.cfg.pr;$('cRt').checked=!!S.cfg.rt;
+ renderMala();renderExp();info();fuel();refresh();tab('home')}
+init();setInterval(refresh,30000);
 </script>
 </body>
 </html>
