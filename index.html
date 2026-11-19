@@ -77,10 +77,10 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
 
 <!-- MAPA -->
 <section id="t-mapa" class="tab space-y-3">
-  <div class="px-1"><h2 class="text-base font-bold">Mapa</h2><p class="text-[11px] mut">Desenho esquemático do trecho. Posições aproximadas. Use o botão para abrir a navegação real.</p></div>
+  <div class="px-1"><h2 class="text-base font-bold">Mapa</h2><p class="text-[11px] mut">Contorno real da região (estados e municípios) com o trajeto desenhado por cima. Sem ruas e posições aproximadas: para navegar, use o botão do Google Maps.</p></div>
   <div id="mapP" class="flex gap-1.5 overflow-x-auto no-sb pb-1"></div>
   <div class="card !p-2"><div id="map"></div>
-    <div class="flex gap-3 flex-wrap text-[11px] mut px-2 pb-1"><span>🟢 Você</span><span>🟠 Previsto agora</span><span>⚪ Paradas</span></div></div>
+    <div class="flex gap-3 flex-wrap text-[11px] mut px-2 pb-1"><span>🟢 Você</span><span>🟠 Previsto agora</span><span>⚫ Paradas</span><span>🔵 Trajeto</span></div></div>
   <div id="mapL" class="space-y-1.5"></div>
   <a id="mapG" class="btn w-full text-center block" target="_blank" rel="noopener" href="#">Abrir este roteiro no Google Maps</a>
 </section>
@@ -187,6 +187,11 @@ const ROUTES={
   {n:'Conselheiro Lafaiete (MG)',km:485,off:420,...CL,q:'Conselheiro Lafaiete, MG',tip:'Último café e banheiro. Se as crianças dormirem, pare só se precisar.'},
   {n:'Chegada: Santa Luzia (MG)',km:600,off:510,...SL,q:'Santa Luzia, MG',tip:'Chegou! Confirme local e horário de devolução do carro da Localiza.'}]}
 };
+const GEO={"reg":{"MG":[[-41.0,-19.51,-41.05,-19.49,-41.04,-19.57,-41.17,-19.67,-41.18,-19.89,-41.31,-19.95,-41.38,-20.19,-41.76,-20.21,-41.78,-20.29,-41.85,-20.33,-41.86,-20.37,-41.8,-20.43,-41.8,-20.54,-41.86,-20.62,-41.81,-20.64,-41.88,-20.78,-41.93,-20.79,-41.98,-20.94,-42.09,-20.94,-42.15,-20.97,-42.08,-21.04,-42.21,-21.18,-42.19,-21.25,-42.23,-21.28,-42.24,-21.4,-42.27,-21.4,-42.29,-21.46,-42.25,-21.49,-42.37,-21.62,-42.34,-21.66,-42.27,-21.68,-42.27,-21.71,-42.88,-21.96,-43.07,-22.09,-43.14,-22.11,-43.13,-22.03,-43.2,-22.04,-43.25,-22.01,-43.35,-22.0,-43.46,-22.07,-43.51,-22.06,-43.56,-22.09,-43.59,-22.05,-43.61,-22.08,-43.69,-22.07,-43.73,-22.1,-43.77,-22.06,-44.1,-22.17,-44.24,-22.27,-44.26,-22.24,-44.39,-22.27,-44.46,-22.26,-44.53,-22.33,-44.61,-22.33,-44.66,-22.38,-44.73,-22.36,-44.83,-22.43,-45.15,-22.51,-45.2,-22.56,-45.2,-19.4,-41.0,-19.4,-41.0,-19.51]],"RJ":[[-44.22,-23.11,-44.16,-23.14,-44.13,-23.12,-44.14,-23.16,-44.1,-23.17,-44.25,-23.2,-44.29,-23.18,-44.35,-23.23,-44.34,-23.18,-44.38,-23.17,-44.23,-23.08,-44.19,-23.1,-44.22,-23.11],[-43.81,-22.77,-43.94,-22.89,-44.11,-22.86,-44.18,-22.93,-44.22,-22.93,-44.23,-22.87,-44.32,-22.84,-44.27,-22.83,-44.24,-22.79,-44.26,-22.77,-44.16,-22.68,-44.2,-22.61,-44.34,-22.59,-44.36,-22.61,-44.39,-22.57,-44.41,-22.61,-44.48,-22.6,-44.51,-22.64,-44.55,-22.6,-44.63,-22.61,-44.64,-22.56,-44.68,-22.56,-44.72,-22.51,-44.73,-22.43,-44.8,-22.39,-44.72,-22.36,-44.66,-22.38,-44.61,-22.33,-44.53,-22.33,-44.43,-22.25,-44.39,-22.27,-44.26,-22.24,-44.24,-22.27,-44.1,-22.17,-43.77,-22.06,-43.73,-22.1,-43.69,-22.07,-43.61,-22.08,-43.59,-22.05,-43.56,-22.09,-43.51,-22.06,-43.46,-22.07,-43.35,-22.0,-43.25,-22.01,-43.2,-22.04,-43.13,-22.03,-43.14,-22.11,-43.07,-22.09,-42.88,-21.96,-42.27,-21.71,-42.27,-21.68,-42.34,-21.66,-42.37,-21.62,-42.25,-21.49,-42.29,-21.46,-42.27,-21.4,-42.24,-21.4,-42.23,-21.28,-42.19,-21.25,-42.21,-21.18,-42.08,-21.04,-42.15,-20.97,-42.09,-20.94,-41.98,-20.94,-41.93,-20.79,-41.87,-20.77,-41.76,-20.81,-41.74,-20.87,-41.71,-20.87,-41.74,-20.93,-41.71,-20.99,-41.72,-21.12,-41.59,-21.15,-41.57,-21.18,-41.48,-21.18,-41.45,-21.21,-41.38,-21.2,-41.19,-21.25,-41.09,-21.22,-41.0,-21.26,-41.0,-21.4,-41.07,-21.52,-41.06,-21.58,-41.01,-21.61,-41.0,-22.02,-41.2,-22.13,-41.69,-22.3,-41.82,-22.14,-41.82,-22.19,-41.88,-22.27,-41.92,-22.22,-41.91,-22.17,-41.97,-22.16,-41.98,-22.12,-42.16,-22.21,-42.27,-22.32,-42.22,-22.34,-42.22,-22.41,-42.19,-22.43,-42.12,-22.4,-42.11,-22.44,-42.07,-22.44,-42.02,-22.39,-41.94,-22.38,-41.88,-22.42,-41.82,-22.42,-41.97,-22.54,-42.0,-22.61,-41.98,-22.73,-41.92,-22.77,-41.86,-22.75,-42.02,-22.89,-42.03,-22.95,-42.0,-22.96,-42.01,-23.0,-42.08,-22.96,-42.37,-22.94,-43.05,-22.98,-43.14,-22.94,-43.09,-22.93,-43.13,-22.88,-43.03,-22.74,-43.03,-22.69,-43.09,-22.68,-43.24,-22.74,-43.29,-22.81,-43.36,-22.8,-43.46,-22.85,-43.49,-22.82,-43.66,-22.86,-43.8,-22.8,-43.74,-22.71,-43.79,-22.69,-43.83,-22.73,-43.81,-22.77]],"ES":[[-41.01,-21.25,-41.09,-21.22,-41.19,-21.25,-41.38,-21.2,-41.45,-21.21,-41.48,-21.18,-41.57,-21.18,-41.59,-21.15,-41.72,-21.12,-41.71,-20.99,-41.74,-20.93,-41.71,-20.87,-41.74,-20.87,-41.76,-20.81,-41.88,-20.76,-41.81,-20.64,-41.86,-20.62,-41.8,-20.54,-41.8,-20.43,-41.86,-20.37,-41.85,-20.33,-41.78,-20.29,-41.76,-20.21,-41.38,-20.19,-41.31,-19.95,-41.18,-19.89,-41.17,-19.67,-41.04,-19.57,-41.05,-19.49,-41.0,-19.51,-41.01,-21.25]],"SP":[[-45.2,-22.56,-45.09,-22.48,-44.97,-22.47,-44.78,-22.41,-44.73,-22.43,-44.68,-22.56,-44.64,-22.56,-44.63,-22.61,-44.55,-22.6,-44.51,-22.64,-44.49,-22.61,-44.41,-22.61,-44.38,-22.57,-44.36,-22.61,-44.34,-22.59,-44.23,-22.6,-44.16,-22.68,-44.26,-22.77,-44.24,-22.79,-44.27,-22.83,-44.42,-22.85,-44.47,-22.89,-44.49,-22.85,-44.74,-22.95,-44.8,-23.0,-44.83,-23.16,-44.96,-23.24,-44.98,-23.23,-45.01,-23.31,-45.07,-23.3,-45.07,-23.35,-45.2,-23.4,-45.2,-22.56]]},"lbl":[["MG",-43.66,-21.0],["RJ",-41.79,-21.84],["ES",-41.43,-20.35],["SP",-44.93,-22.92]],"loc":[{"n":"Araruama","r":[[-42.2517,-22.8,-42.2398,-22.8399,-42.2491,-22.8484,-42.2377,-22.8637,-42.2838,-22.9001,-42.2773,-22.9064,-42.2754,-22.9168,-42.2825,-22.9261,-42.291,-22.9281,-42.291,-22.9391,-42.3,-22.9386,-42.3,-22.8,-42.2517,-22.8]],"c":[-42.2804,-22.8819]},{"n":"Armação dos Búzios","r":[[-41.9327,-22.8036,-41.9274,-22.8076,-41.9298,-22.8131,-41.9414,-22.809,-41.9448,-22.8128,-41.9697,-22.821,-41.9959,-22.8,-41.9321,-22.8,-41.9327,-22.8036]],"c":[-41.9627,-22.8109]},{"n":"Arraial do Cabo","r":[[-42.234,-22.8739,-42.2265,-22.8686,-42.2203,-22.8685,-42.2107,-22.8778,-42.1989,-22.8788,-42.1896,-22.8742,-42.1772,-22.8753,-42.1725,-22.8727,-42.1606,-22.8792,-42.1533,-22.8897,-42.1484,-22.8943,-42.1232,-22.907,-42.0905,-22.9324,-42.0354,-22.9337,-42.0317,-22.9462,-42.0212,-22.946,-42.0255,-22.9558,-42.0208,-22.9613,-42.0142,-22.9545,-42.002,-22.9498,-42.0086,-22.9596,-42.0063,-22.962,-42.0029,-22.959,-41.9966,-22.96,-42.0026,-22.9692,-42.0131,-22.9641,-42.0157,-22.9673,-42.0116,-22.9701,-42.0188,-22.9708,-42.0189,-22.9789,-42.0102,-22.9785,-42.0075,-22.9831,-42.0122,-22.9881,-42.0128,-22.9974,-42.0201,-22.9831,-42.0298,-22.9825,-42.0345,-22.9785,-42.0337,-22.9707,-42.0456,-22.9629,-42.0761,-22.9552,-42.1435,-22.9494,-42.291,-22.9391,-42.291,-22.9281,-42.2825,-22.9261,-42.2754,-22.9168,-42.2773,-22.9064,-42.2838,-22.9001,-42.2377,-22.8637,-42.234,-22.8739]],"c":[-42.1921,-22.9302]},{"n":"Cabo Frio","r":[[-41.9697,-22.821,-41.986,-22.8481,-41.9858,-22.8619,-41.9827,-22.8661,-41.9788,-22.8645,-41.9833,-22.8682,-41.9809,-22.8724,-41.9908,-22.8819,-41.9989,-22.8844,-42.0015,-22.8894,-42.0051,-22.8848,-42.0111,-22.8837,-42.0239,-22.8932,-42.0321,-22.907,-42.0354,-22.9337,-42.0905,-22.9324,-42.1232,-22.907,-42.1141,-22.9083,-42.1066,-22.8977,-42.1044,-22.8845,-42.1075,-22.8677,-42.098,-22.8613,-42.0871,-22.8645,-42.0758,-22.8601,-42.0611,-22.8671,-42.0528,-22.8621,-42.0458,-22.8671,-42.0408,-22.8652,-42.0243,-22.8,-41.9959,-22.8,-41.9697,-22.821]],"c":[-42.0129,-22.8666]},{"n":"Iguaba Grande","r":[[-42.1989,-22.8788,-42.2107,-22.8778,-42.2203,-22.8685,-42.2265,-22.8686,-42.234,-22.8739,-42.2377,-22.8637,-42.2491,-22.8484,-42.2398,-22.8399,-42.2517,-22.8,-42.1954,-22.8,-42.1937,-22.8013,-42.1962,-22.8073,-42.1929,-22.8156,-42.1928,-22.8217,-42.1769,-22.8274,-42.1962,-22.8549,-42.1989,-22.8788]],"c":[-42.2114,-22.8337]},{"n":"São Pedro da Aldeia","r":[[-42.0408,-22.8652,-42.0458,-22.8671,-42.0528,-22.8621,-42.0611,-22.8671,-42.0758,-22.8601,-42.0871,-22.8645,-42.098,-22.8613,-42.1075,-22.8677,-42.1044,-22.8845,-42.1066,-22.8977,-42.1141,-22.9083,-42.1232,-22.907,-42.1484,-22.8943,-42.1533,-22.8897,-42.1606,-22.8792,-42.1725,-22.8727,-42.1772,-22.8753,-42.1896,-22.8742,-42.1989,-22.8788,-42.1962,-22.8549,-42.1769,-22.8274,-42.1928,-22.8217,-42.1929,-22.8156,-42.1962,-22.8073,-42.1937,-22.8013,-42.1954,-22.8,-42.0243,-22.8,-42.0408,-22.8652]],"c":[-42.1106,-22.8412]}]};
+ROUTES.ida.seg=[[[-19.93,-43.94],[-20.52,-43.7]],[[-21.2257,-43.7703],[-21.4583,-43.5503]],[[-22.505,-43.178]],[[-22.7447,-42.8596],[-22.7087,-42.6097],[-22.8725,-42.3433],[-22.8428,-42.1028]]];
+ROUTES.volta.seg=ROUTES.ida.seg.map(x=>x.slice().reverse()).reverse();
+const fullSeg=(w,i)=>{const P=ROUTES[w].stops;return[P[i],...ROUTES[w].seg[i].map(q=>({lat:q[0],lon:q[1]})),P[i+1]]};
+function polyAt(pl,f){const L=pl.slice(1).map((q,j)=>hav(pl[j],q)),T=L.reduce((a,b)=>a+b,0);let t=f*T;for(let j=0;j<L.length;j++){if(t<=L[j]||j===L.length-1){const u=L[j]?Math.min(1,t/L[j]):0;return{lat:pl[j].lat+u*(pl[j+1].lat-pl[j].lat),lon:pl[j].lon+u*(pl[j+1].lon-pl[j].lon)}}t-=L[j]}return pl[0]}
 const TRIP_DAYS=[
  {id:'dom',short:'Dom',title:'Domingo · Chegada e Pôr do Sol',sub:'Aclimatação leve, sem precisar tirar o carro da garagem',items:[
   {id:'d1',h:14.5,time:'~14h–15h',badge:'Check-in',title:'Hotel Sesc Cabo Frio',desc:'Acomodar as malas e descansar da estrada. O hotel fica a ~500 m da praia: dá para ir caminhando com o carrinho da Elisa.',q:'Hotel Sesc Cabo Frio, Cabo Frio, RJ',lat:-22.8805,lon:-42.0215},
@@ -226,11 +231,13 @@ function expected(w,now){const P=ROUTES[w].stops,st=startOf(w),m=(now-st)/6e4,L=
  if(m<=0)return{s:'before',i:0,km:0,pt:P[0]};
  if(m>=L.off)return{s:'after',i:P.length-1,km:L.km,pt:L};
  let i=0;while(P[i+1].off<m)i++;const a=P[i],b=P[i+1],f=(m-a.off)/(b.off-a.off);
- return{s:'on',i,f,km:a.km+f*(b.km-a.km),pt:{lat:a.lat+f*(b.lat-a.lat),lon:a.lon+f*(b.lon-a.lon)},eta:new Date(st.getTime()+b.off*6e4)}}
+ return{s:'on',i,f,km:a.km+f*(b.km-a.km),pt:polyAt(fullSeg(w,i),f),eta:new Date(st.getTime()+b.off*6e4)}}
 function project(w,p){const P=ROUTES[w].stops,kx=111.32*Math.cos(p.lat*rad),ky=110.57;let best=null;
- for(let i=0;i<P.length-1;i++){const a=P[i],b=P[i+1],ax=a.lon*kx,ay=a.lat*ky,dx=b.lon*kx-ax,dy=b.lat*ky-ay,px=p.lon*kx,py=p.lat*ky,
-  t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy||1))),d=Math.hypot(px-ax-t*dx,py-ay-t*dy);
-  if(!best||d<best.d)best={d,km:a.km+t*(b.km-a.km)}}return best}
+ for(let i=0;i<P.length-1;i++){const pl=fullSeg(w,i),L=pl.slice(1).map((q,j)=>hav(pl[j],q)),T=L.reduce((a,b)=>a+b,0);let acc=0;
+  for(let j=0;j<pl.length-1;j++){const a=pl[j],b=pl[j+1],ax=a.lon*kx,ay=a.lat*ky,dx=b.lon*kx-ax,dy=b.lat*ky-ay,px=p.lon*kx,py=p.lat*ky,
+   t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy||1))),d=Math.hypot(px-ax-t*dx,py-ay-t*dy);
+   if(!best||d<best.d)best={d,km:P[i].km+(acc+t*L[j])/T*(P[i+1].km-P[i].km)};acc+=L[j]}}
+ return best}
 function phase(now){const iS=dep(),iE=new Date(iS.getTime()+510*6e4),vS=back(),vE=new Date(vS.getTime()+510*6e4);
  return now<iS?'pre':now<=iE?'ida':now<vS?'cf':now<=vE?'volta':'fim'}
 function dayBase(i){const d=dep();return new Date(d.getFullYear(),d.getMonth(),d.getDate()+i)}
@@ -306,22 +313,32 @@ function togDay(id,v){S.days[id]=v;save();renderDays();renderNow()}
 /* ---------- MAPA ---------- */
 function goMap(v){mapV=String(v);tab('mapa')}
 function setMap(k){mapV=k;renderMap()}
-function svgMap(pts,exp,mp){
- const all=pts.concat(exp?[exp]:[],mp?[mp]:[]),la=all.map(p=>p.lat),lo=all.map(p=>p.lon),a=Math.min(...la),b=Math.max(...la),c=Math.min(...lo),d=Math.max(...lo),k=Math.cos((a+b)/2*rad),
- W=340,H=300,pd=30,dx=Math.max((d-c)*k,.001),dy=Math.max(b-a,.001),s=Math.min((W-2*pd)/dx,(H-2*pd)/dy),ox=(W-dx*s)/2,oy=(H-dy*s)/2,
- X=p=>(ox+(p.lon-c)*k*s).toFixed(1),Y=p=>(oy+(b-p.lat)*s).toFixed(1);
- let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="background:#020617;border-radius:12px"><polyline fill="none" stroke="#334155" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="${pts.map(p=>X(p)+','+Y(p)).join(' ')}"/>`;
- pts.forEach((p,i)=>{g+=`<circle cx="${X(p)}" cy="${Y(p)}" r="10" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.5"/><text x="${X(p)}" y="${+Y(p)+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#e2e8f0">${i+1}</text>`});
- if(exp)g+=`<circle cx="${X(exp)}" cy="${Y(exp)}" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>`;
- if(mp)g+=`<circle cx="${X(mp)}" cy="${Y(mp)}" r="14" fill="#34d399" opacity=".3"><animate attributeName="r" values="8;18;8" dur="2s" repeatCount="indefinite"/></circle><circle cx="${X(mp)}" cy="${Y(mp)}" r="7" fill="#10b981" stroke="#fff" stroke-width="2"/>`;
- return g+'</svg>'}
+function svgMap(pts,exp,mp,path,road){
+ const line=path||pts,all=line.concat(exp?[exp]:[],mp?[mp]:[]),la=all.map(p=>p.lat),lo=all.map(p=>p.lon),a=Math.min(...la),b=Math.max(...la),c=Math.min(...lo),d=Math.max(...lo),k=Math.cos((a+b)/2*rad),
+ W=340,H=road?400:320,pd=road?36:38,dx=Math.max((d-c)*k,road?.001:.045*k),dy=Math.max(b-a,road?.001:.045),s=Math.min((W-2*pd)/dx,(H-2*pd)/dy),ox=(W-dx*s)/2,oy=(H-dy*s)/2,
+ X=p=>(ox+(p.lon-c)*k*s).toFixed(1),Y=p=>(oy+(b-p.lat)*s).toFixed(1),
+ ring=r=>{let t='';for(let i=0;i<r.length;i+=2)t+=(i?'L':'M')+X({lon:r[i]})+' '+Y({lat:r[i+1]});return t+'Z'},
+ halo='paint-order="stroke" stroke="#fff" stroke-width="3" stroke-linejoin="round"';
+ let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="border-radius:12px;display:block"><rect width="${W}" height="${H}" fill="#cfe8fc"/>`;
+ if(road){Object.values(GEO.reg).forEach(rs=>rs.forEach(r=>{g+=`<path d="${ring(r)}" fill="#f1f0e4" stroke="#94a3b8" stroke-width="1"/>`}));
+  GEO.lbl.forEach(l=>{g+=`<text x="${X({lon:l[1]})}" y="${Y({lat:l[2]})}" text-anchor="middle" font-size="22" font-weight="800" fill="#94a3b8" opacity=".55">${l[0]}</text>`})}
+ else{GEO.loc.forEach(m=>m.r.forEach(r=>{g+=`<path d="${ring(r)}" fill="#f1f0e4" stroke="#b6bfae" stroke-width="1"/>`}));
+  GEO.loc.forEach(m=>{g+=`<text x="${X({lon:m.c[0]})}" y="${Y({lat:m.c[1]})}" text-anchor="middle" font-size="10" font-style="italic" fill="#64748b" ${halo}>${m.n}</text>`})}
+ g+=`<polyline fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" points="${line.map(p=>X(p)+','+Y(p)).join(' ')}"/><polyline fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="${line.map(p=>X(p)+','+Y(p)).join(' ')}"/>`;
+ pts.forEach((p,i)=>{const x=+X(p),y=+Y(p),r=road?(p.n||'').split(' (')[0].replace(/^(Saída|Chegada): /,''):'';
+  g+=`<circle cx="${x}" cy="${y}" r="10" fill="#0f172a" stroke="#fff" stroke-width="2"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${i+1}</text>`;
+  if(road)g+=`<text x="${x>W/2?x-15:x+15}" y="${y+4}" text-anchor="${x>W/2?'end':'start'}" font-size="10" font-weight="600" fill="#0f172a" ${halo}>${esc(r)}</text>`});
+ if(exp)g+=`<circle cx="${X(exp)}" cy="${Y(exp)}" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2.5"/>`;
+ if(mp)g+=`<circle cx="${X(mp)}" cy="${Y(mp)}" r="14" fill="#10b981" opacity=".3"><animate attributeName="r" values="8;18;8" dur="2s" repeatCount="indefinite"/></circle><circle cx="${X(mp)}" cy="${Y(mp)}" r="7" fill="#10b981" stroke="#fff" stroke-width="2.5"/>`;
+ return g+`<text x="${W-8}" y="${H-8}" text-anchor="end" font-size="10" font-style="italic" fill="#3b82f6">Oceano Atlântico</text></svg>`}
 function renderMap(){const now=new Date(),ph=phase(now);if(mapV===null)mapV=ph==='volta'?'volta':ph==='cf'&&todayIdx(now)>=0?String(todayIdx(now)):'ida';
  $('mapP').innerHTML=pills([['ida','🚗 Ida'],...TRIP_DAYS.map((d,i)=>[String(i),d.short]),['volta','🏠 Volta']],mapV,'setMap');
  const road=mapV==='ida'||mapV==='volta';let pts,exp=null;
  if(road){pts=ROUTES[mapV].stops;const e=expected(mapV,now);if(e.s==='on')exp=e.pt}
  else{const day=TRIP_DAYS[+mapV],ds=dayState(now).find(o=>o.di===+mapV&&o.st==='now');pts=day.items;if(ds)exp=ds.it}
  let mp=me;if(mp&&hav(mp,pts[0])>800)mp=null;
- $('map').innerHTML=svgMap(pts,exp,mp);
+ let path=null;if(road){const P=ROUTES[mapV].stops;path=[];for(let i=0;i<P.length-1;i++)path.push(...fullSeg(mapV,i).slice(i?1:0))}
+ $('map').innerHTML=svgMap(pts,exp,mp,path,road);
  $('mapL').innerHTML=pts.map((p,i)=>`<div class="flex items-center gap-2 text-xs rounded-lg bg-slate-900 border border-slate-800 px-3 py-2"><b class="ac w-5">${i+1}</b><span class="flex-1">${esc(p.n||p.title)}</span>${me?`<span class="mut">${hav(me,p).toFixed(me&&hav(me,p)<50?1:0)} km</span>`:''}</div>`).join('');
  const q=pts.map(p=>encodeURIComponent(p.q));$('mapG').href='https://www.google.com/maps/dir/?api=1&origin='+q[0]+'&destination='+q[q.length-1]+(q.length>2?'&waypoints='+q.slice(1,-1).join('%7C'):'')}
 
