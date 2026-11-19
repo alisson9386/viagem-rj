@@ -15,17 +15,20 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--txt
 .inp{background:var(--bg);border:1px solid #334155;border-radius:.75rem;padding:.55rem .75rem;width:100%;font-size:16px;color:var(--txt)}
 .btn{background:#059669;color:#fff;border-radius:.75rem;padding:.55rem .9rem;font-size:.8rem;font-weight:600}
 .btn2{background:#1e293b;border:1px solid #334155;color:var(--txt);border-radius:.75rem;padding:.45rem .7rem;font-size:.75rem;font-weight:600;display:inline-block}
+.pill{background:#0f172a;border:1px solid #1e293b;color:var(--mut);border-radius:999px;padding:.35rem .75rem;font-size:.75rem;font-weight:600;white-space:nowrap}
+.pill.on{background:#10b98126;border-color:#10b98166;color:var(--ac)}
 .mut{color:var(--mut)}.ac{color:var(--ac)}
 .bar{height:6px;border-radius:9px;background:#1e293b;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);transition:width .3s}
 .tab{display:none}.tab.on{display:block}
-.done{opacity:.55}.done .ttl{text-decoration:line-through}
-.nb{display:flex;flex-direction:column;align-items:center;padding:.4rem;font-size:10px;color:var(--mut);border-radius:.75rem}.nb b{font-size:18px;font-weight:400}.nb.on{color:var(--ac);background:#34d3991a}
+.done{opacity:.58}.done .ttl{text-decoration:line-through}
+.nb{display:flex;flex-direction:column;align-items:center;padding:.38rem .15rem;font-size:9.5px;color:var(--mut);border-radius:.75rem}.nb b{font-size:17px;font-weight:400;line-height:1.2}.nb.on{color:var(--ac);background:#34d3991a}
 input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
+.no-sb::-webkit-scrollbar{display:none}.no-sb{-ms-overflow-style:none;scrollbar-width:none}
 </style>
 </head>
 <body>
 <header style="position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:#0f172ae6;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)" class="px-4 py-3 flex items-center justify-between">
-  <div><h1 class="text-sm font-bold">🚗 Santa Luzia → Cabo Frio</h1><p class="text-xs mut">Carro Localiza · ~600 km</p></div>
+  <div><h1 class="text-sm font-bold">🚗 Santa Luzia → Cabo Frio</h1><p class="text-xs mut">Hotel Sesc Cabo Frio · Dom a Qua</p></div>
   <span id="chip" class="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 ac"></span>
 </header>
 <div style="position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);z-index:41;background:#0f172a"></div>
@@ -41,8 +44,15 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
     <label class="block text-[11px] mut mt-3">Alterar data/hora da saída</label>
     <input id="depIn" type="datetime-local" class="inp mt-1" oninput="setDep(this.value)">
   </div>
-  <div class="card space-y-3"><h3 class="text-xs font-bold mut uppercase tracking-wider">Progresso</h3><div id="prog" class="space-y-3"></div></div>
+  <div class="card space-y-3"><h3 class="text-xs font-bold mut uppercase tracking-wider">Progresso da viagem</h3><div id="prog" class="space-y-3"></div></div>
   <div class="grid grid-cols-3 gap-2 text-center" id="stats"></div>
+  <div class="card flex items-center justify-between gap-3">
+    <div>
+      <div class="text-[11px] ac font-bold uppercase tracking-wider">Roteiro Cabo Frio & Arraial</div>
+      <div class="text-xs mut mt-0.5">Dom a Qua · Praia do Forte, Atalaia, Prainha, Ilha do Japonês e Passagem</div>
+    </div>
+    <button class="btn shrink-0" onclick="tab('dias')">Abrir 🏖️</button>
+  </div>
   <div class="rounded-2xl p-4 bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 space-y-2 leading-relaxed">
     <p>📅 <b>Feriado:</b> sexta, 20/11 é feriado nacional (Consciência Negra). Sair de madrugada ajuda a fugir do movimento nas saídas de BH e na chegada à Região dos Lagos.</p>
     <p>💳 <b>Pedágios:</b> prefira cabines manuais (cartão/PIX) para evitar taxa e diária da tag da locadora. Confirme as condições no seu contrato.</p>
@@ -50,9 +60,9 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
   </div>
 </section>
 
-<!-- ROTEIRO -->
+<!-- ESTRADA (IDA) -->
 <section id="t-rota" class="tab space-y-3">
-  <div class="flex justify-between items-center px-1"><h2 class="text-base font-bold">Roteiro</h2><span id="sc" class="text-xs mut"></span></div>
+  <div class="flex justify-between items-center px-1"><h2 class="text-base font-bold">Roteiro da Estrada</h2><span id="sc" class="text-xs mut"></span></div>
   <p class="text-[11px] mut px-1">Horários estimados a partir da saída, já com paradas. Distâncias aproximadas: confirme no Maps.</p>
   <div id="stops" class="space-y-3"></div>
   <a class="btn w-full text-center block" target="_blank" rel="noopener" href="https://maps.app.goo.gl/fYvwUsuX6CobBLtF6">🗺️ Abrir rota oficial no Google Maps</a>
@@ -63,6 +73,19 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
     <p>🐢 <b>Ritmo:</b> fique à direita se houver pressa atrás. Você vai no seu tempo.</p>
     <p>⛽ <b>Combustível:</b> reabasteça com o tanque em 1/4, principalmente de madrugada.</p>
   </div>
+</section>
+
+<!-- ROTEIRO CABO FRIO (DOM - QUA) -->
+<section id="t-dias" class="tab space-y-3">
+  <div class="flex justify-between items-center px-1">
+    <div>
+      <h2 class="text-base font-bold">Roteiro Cabo Frio</h2>
+      <p class="text-[11px] mut">Com Josué (2a 10m) e Elisa (10m) · Base: Sesc Cabo Frio</p>
+    </div>
+    <span id="dc" class="text-xs mut"></span>
+  </div>
+  <div id="dayFilters" class="flex gap-1.5 overflow-x-auto no-sb pb-1"></div>
+  <div id="dayPlan" class="space-y-4"></div>
 </section>
 
 <!-- MALA -->
@@ -132,15 +155,36 @@ input[type=checkbox]{width:20px;height:20px;accent-color:#10b981;flex:none}
 </section>
 </main>
 
-<nav style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#0f172af2;backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:.4rem .5rem calc(.4rem + env(safe-area-inset-bottom,0px))">
-  <div class="max-w-md mx-auto grid grid-cols-5 gap-1" id="nav"></div>
+<nav style="position:fixed;left:0;right:0;bottom:0;z-index:50;background:#0f172af2;backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:.4rem .35rem calc(.4rem + env(safe-area-inset-bottom,0px))">
+  <div class="max-w-md mx-auto grid grid-cols-6 gap-0.5" id="nav"></div>
 </nav>
 
 <script>
 const K='cabofrio_v2';
-const D={dep:'2026-11-22T03:00',stops:{},items:{},custom:[],exp:[],info:{},cfg:{km:600,kml:12,pr:6,rt:true}};
+const D={
+  dep:'2026-11-21T03:00',
+  stops:{},
+  days:{},
+  items:{},
+  custom:[],
+  exp:[],
+  info:{
+    hotel:'Hotel Sesc Cabo Frio, Cabo Frio - RJ',
+    checkin:'Check-in Dom ~14h–15h · Check-out Qua ~11h'
+  },
+  cfg:{km:600,kml:12,pr:6,rt:true}
+};
 let S=JSON.parse(JSON.stringify(D));
-try{const r=localStorage.getItem(K);if(r){const o=JSON.parse(r);S=Object.assign(S,o);S.cfg=Object.assign({},D.cfg,o.cfg||{})}}catch(e){}
+try{
+  const r=localStorage.getItem(K);
+  if(r){
+    const o=JSON.parse(r);
+    S=Object.assign(S,o);
+    S.cfg=Object.assign({},D.cfg,o.cfg||{});
+    S.info=Object.assign({},D.info,o.info||{});
+    S.days=S.days||{};
+  }
+}catch(e){}
 const $=i=>document.getElementById(i);
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -149,25 +193,181 @@ const hm=d=>d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
 const dep=()=>{const d=new Date(S.dep);return isNaN(d)?new Date(2026,10,21,3,0):d};
 
 const STOPS=[
- {n:'Saída: Casa - Santa Luzia (MG)',km:0,off:0,q:'Rua Afonsino Altino Diniz, Santa Luzia, MG',tip:'Tanque cheio, cintos, GPS e Maps offline prontos.'},
+ {n:'Saída: Santa Luzia (MG)',km:0,off:0,q:'Santa Luzia, MG',tip:'Tanque cheio, cintos, GPS e Maps offline prontos.'},
  {n:'Conselheiro Lafaiete (MG)',km:115,off:90,q:'Conselheiro Lafaiete, MG',tip:'Primeiro café, banheiro e esticar as pernas.'},
  {n:'Juiz de Fora (MG)',km:285,off:225,q:'Juiz de Fora, MG',tip:'Parada principal: lanche reforçado e abastecer. Depois vem a descida da serra.'},
  {n:'Início do Arco Metropolitano (RJ)',km:470,off:375,q:'Arco Metropolitano BR-493 Duque de Caxias, RJ',tip:'Respire, confira o GPS e entre na via de contorno, longe do centro do Rio.'},
  {n:'Cabo Frio (RJ)',km:600,off:510,q:'Cabo Frio, RJ',tip:'Chegada! Guarde as fotos do carro para a devolução.'}
 ];
+
+const TRIP_DAYS=[
+ {
+  id:'dom',
+  short:'Dom',
+  title:'Domingo · Chegada e Pôr do Sol',
+  sub:'Aclimatação leve sem precisar tirar o carro da garagem',
+  items:[
+   {
+    id:'d1',
+    time:'~14h–15h',
+    badge:'Check-in',
+    title:'Hotel Sesc Cabo Frio',
+    desc:'Acomodar as malas e descansar um pouco da estrada. O hotel fica a ~500m da praia: dá para ir caminhando com o carrinho da Elisa.',
+    q:'Hotel Sesc Cabo Frio, Cabo Frio, RJ'
+   },
+   {
+    id:'d2',
+    time:'~15h30–17h',
+    badge:'Praia + História',
+    title:'Canto esquerdo da Praia do Forte e Forte de São Mateus',
+    desc:'O canto esquerdo é a parte mais protegida das ondas, ideal para o Josué e a Elisa molharem os pés. Atenção: o Forte de São Mateus fecha às 17h — entrem no forte primeiro e depois desçam para as pedras e o mirante ao lado.',
+    q:'Forte de São Mateus, Cabo Frio, RJ'
+   },
+   {
+    id:'d3',
+    time:'Fim de tarde',
+    badge:'Pôr do sol',
+    title:'Pôr do sol no Forte de São Mateus (ou Morro da Guia)',
+    desc:'Nas pedras e no mirante ao lado do forte, o sol se põe atrás da cidade iluminando toda a curva da Praia do Forte. Alternativa de carro: Morro da Guia (vista 360° da cidade, Canal do Itajuru e Lagoa de Araruama; estacionamento pago e subida final íngreme).',
+    q:'Morro da Guia, Cabo Frio, RJ'
+   }
+  ]
+ },
+ {
+  id:'seg',
+  short:'Seg',
+  title:'Segunda · Arraial do Cabo sem perrengue',
+  sub:'Saída cedo com mochila leve, tartarugas na Prainha e noite tranquila',
+  items:[
+   {
+    id:'s1',
+    time:'Manhã (7h30–8h)',
+    badge:'Destaque',
+    title:'Prainhas do Pontal do Atalaia',
+    desc:'Suba pela Rua Pontal do Atalaia (ou táxi credenciado se a cota de carros particulares lotar), pare rápido no Mirante e desça a escadaria (~255 degraus). Leve a Elisa no canguru/sling (não dá de carrinho) e vá de mão dada com o Josué. Evite a trilha a pé. Leve só 1 mochila leve + canga grande (quiosques cobram consumação alta) e deixe o resto no carro.',
+    q:'Escadaria das Prainhas do Pontal do Atalaia, Arraial do Cabo, RJ'
+   },
+   {
+    id:'s2',
+    time:'Almoço (~12h)',
+    badge:'Alerta segunda',
+    title:'Calamares (Praia Grande) ou Pousada da Prainha',
+    desc:'Importante: Saint Tropez e Bistrô da Praia (Praia dos Anjos) NÃO abrem no almoço de segunda-feira (só às 18h). O Calamares (orla da Praia Grande) abre diariamente às 12h, pé na areia e pratos fartos para dividir em família. Outra opção prática é almoçar já na Pousada da Prainha.',
+    q:'Calamares Praia Grande, Arraial do Cabo, RJ'
+   },
+   {
+    id:'s3',
+    time:'Tarde (até ~15h)',
+    badge:'Tartarugas 🐢',
+    title:'Prainha (Arraial do Cabo)',
+    desc:'Acesso plano da rua até a areia (ótimo para carrinho), mar calmo como piscina e boa estrutura. Dica de vida marinha: fiquem no canto direito (perto das pedras e do píer) — é muito comum ver tartarugas marinhas subindo para respirar bem pertinho da margem.',
+    q:'Prainha, Arraial do Cabo, RJ'
+   },
+   {
+    id:'s4',
+    time:'Noite',
+    badge:'Jantar leve',
+    title:'Feira de Artesanato da Praia do Forte ou Boulevard Canal',
+    desc:'Após descansar no hotel no fim da tarde, caminhada com carrinho até a Feira de Artesanato na orla (abre às 17h; tapioca, crepe, pastel) ou 5 min de carro até o Boulevard Canal (calçadão largo e plano à beira d’água com vários restaurantes).',
+    q:'Boulevard Canal, Cabo Frio, RJ'
+   }
+  ]
+ },
+ {
+  id:'ter',
+  short:'Ter',
+  title:'Terça · Águas quentinhas, Passagem e Gelato',
+  sub:'Melhor dia para bebês + noite a dois com babá eletrônica no Sesc',
+  items:[
+   {
+    id:'t1',
+    time:'Manhã cedo',
+    badge:'Melhor p/ bebês',
+    title:'Ilha do Japonês (+ opção Praia das Conchas)',
+    desc:'Água rasinha, sem ondas, cristalina e bem mais quentinha que nas praias abertas. Na maré baixa atravessa andando (água na canela/joelho); na cheia há barquinhos (2 min). Chegando cedo garante sombra natural das árvores. Se saírem cedo da ilha, vale passar na Praia das Conchas (no mesmo caminho), que tem piscininhas naturais entre as pedras com peixinhos e tartarugas.',
+    q:'Ilha do Japonês, Cabo Frio, RJ'
+   },
+   {
+    id:'t2',
+    time:'Almoço (~12h)',
+    badge:'Charme histórico',
+    title:'Bairro da Passagem: Arcos do Canal ou José Restaurante',
+    desc:'Fica logo do outro lado do canal em relação à Ilha do Japonês, com ruas de paralelepípedo e casarões coloniais. Opções abertas às 12h: Arcos do Canal (de frente para o canal, tem aquário gigante de 4.000 L que encanta crianças) ou José Restaurante (proteína na brasa + acompanhamentos à escolha, fácil de adaptar para as crianças).',
+    q:'Bairro da Passagem, Cabo Frio, RJ'
+   },
+   {
+    id:'t3',
+    time:'Tarde',
+    badge:'Sorvete + Passeio',
+    title:'Gelato na Passagem e passeio leve',
+    desc:'Sorvete artesanal na Giulietta Gelato (abre às 14h, cantinho infantil), San Lorenzo (13h), Felicitá (13h) ou José Gelato (14h). Passeios mais confortáveis que o buggy: Jardineira/Trenzinho panorâmico (sai da Praia do Forte, é coberto) ou passeio curto de barco (30–45 min) pelo Canal do Itajuru (águas paradas, sombra e sem enjoo).',
+    q:'Giulietta Gelato, Bairro da Passagem, Cabo Frio, RJ'
+   },
+   {
+    id:'t4',
+    time:'Noite',
+    badge:'Jantar a dois 🥂',
+    title:'Jantar na área de convivência do Hotel Sesc',
+    desc:'Deixar o Josué e a Elisa dormirem cedo para a viagem de volta. Testem o alcance da babá eletrônica antes no quarto e confirmem na recepção o horário do restaurante da área de convivência do Sesc.',
+    q:'Hotel Sesc Cabo Frio, Cabo Frio, RJ'
+   }
+  ]
+ },
+ {
+  id:'qua',
+  short:'Qua',
+  title:'Quarta · Manhã livre, Check-out e Volta',
+  sub:'Aproveitar o hotel sem pressa, almoçar bem e pegar a estrada',
+  items:[
+   {
+    id:'q1',
+    time:'Manhã (até 11h)',
+    badge:'Despedida',
+    title:'Piscina do Sesc ou Praia do Forte + Check-out',
+    desc:'Aproveitar a piscina/toboágua do hotel ou uma última caminhada na Praia do Forte, arrumar as malas com calma e fazer o check-out por volta das 11h.',
+    q:'Praia do Forte, Cabo Frio, RJ'
+   },
+   {
+    id:'q2',
+    time:'Almoço (~11h30–12h)',
+    badge:'Antes da estrada',
+    title:'Restaurante Tia Maluca ou Restaurante Picolino',
+    desc:'Na orla do canal, práticos antes da viagem: Tia Maluca (abre às 11h30, clássico familiar rápido e farto, famoso pela picanha na chapa) ou Restaurante Picolino (abre às 12h, casarão histórico com varanda para o canal). Depois, pé na estrada!',
+    q:'Restaurante Tia Maluca, Cabo Frio, RJ'
+   }
+  ]
+ }
+];
+
+const EXTRA_TIPS=[
+ {icon:'🌅',title:'Onde ver o nascer do sol',txt:'Na própria Praia do Forte e no Forte de São Mateus (a 500m do hotel). A costa é voltada para o leste e o sol nasce por volta das 5h45–6h surgindo atrás do forte.'},
+ {icon:'🐋',title:'O que esperar no fim de novembro',txt:'Baleias-jubarte já migraram (pico é ago–out; não vale barco para isso). A vantagem é a pré-temporada tranquila de seg a qua e muitas tartarugas na Prainha e Praia das Conchas. Lembre-se que a água do mar aberto é bem gelada (ressurgência).'},
+ {icon:'🏖️',title:'Praia extra imperdível',txt:'Praia das Conchas (ao lado do Peró, no mesmo caminho da Ilha do Japonês): enseada fechada de águas calmas e piscininhas naturais nas pedras onde as crianças veem peixinhos e tartarugas de perto.'},
+ {icon:'🚙',title:'Sobre o passeio de buggy',txt:'Buggies não têm fixação para cadeirinha/bebê conforto (Elisa iria no colo), pegam muito vento/sol por 2h30–3h e hoje é proibido subir nas dunas de buggy (caminhada de 15–20 min). Se forem, prefiram 15h30 com chapéu de cordinha.'}
+];
+
 const GROUPS={
  'Documentos':['CNH física ou digital','Contrato e documentos do carro Localiza','Reserva da hospedagem','Documentos de todos os passageiros'],
  'Carro (na retirada)':['Fotografar e filmar o carro todo','Conferir estepe, macaco e triângulo','Conferir nível de combustível do contrato','Calibragem dos pneus'],
+ 'Crianças & Praia':['Canguru ou sling (essencial p/ escadaria do Atalaia)','Carrinho de bebê (Praia do Forte, Prainha e orla)','Babá eletrônica + carregador','Chapéu com cordinha, protetor solar e roupas UV','Canga grande (economiza consumação no Atalaia)'],
  'Eletrônicos':['Power bank 20.000 mAh carregado','Cabo USB bom para a multimídia','Google Maps offline baixado','Suporte de celular no carro'],
- 'Conforto':['Água e petiscos fáceis no console','Cartão e dinheiro para pedágio','Remédios e protetor solar','Casacos para a madrugada']
+ 'Conforto':['Água e petiscos fáceis no console','Cartão e dinheiro para pedágio','Remédios básicos (febre, enjoo, curativos)','Casacos para a madrugada']
 };
-const TABS=[['home','🏠','Início'],['rota','🧭','Roteiro'],['mala','🎒','Checklist'],['gastos','💰','Gastos'],['sos','🆘','SOS']];
+const TABS=[['home','🏠','Início'],['rota','🛣️','Estrada'],['dias','🏖️','Roteiro'],['mala','🎒','Checklist'],['gastos','💰','Gastos'],['sos','🆘','SOS']];
 
-function tab(t){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+t));
- document.querySelectorAll('.nb').forEach(e=>e.classList.toggle('on',e.dataset.t===t));window.scrollTo({top:0})}
+let dayFilter='all';
+
+function tab(t){
+ document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+t));
+ document.querySelectorAll('.nb').forEach(e=>e.classList.toggle('on',e.dataset.t===t));
+ window.scrollTo({top:0});
+}
 $('nav').innerHTML=TABS.map(t=>`<button class="nb" data-t="${t[0]}" onclick="tab('${t[0]}')"><b>${t[1]}</b>${t[2]}</button>`).join('');
 
 function setDep(v){if(v){S.dep=v;save();renderStops();home()}}
+
+function dayTotal(){return TRIP_DAYS.reduce((a,d)=>a+d.items.length,0)}
+function dayDone(){return Object.values(S.days).filter(Boolean).length}
 
 function home(){
  const d=dep();
@@ -178,9 +378,9 @@ function home(){
  else{const days=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
   $('cd').innerHTML=[[days,'dias'],[h,'horas'],[m,'min']].map(x=>`<div class="rounded-xl bg-slate-950 border border-slate-800 py-2"><div class="text-2xl font-black ac">${x[0]}</div><div class="text-[10px] mut">${x[1]}</div></div>`).join('')+'<div class="rounded-xl bg-slate-950 border border-slate-800 py-2 flex items-center justify-center text-xl">🌊</div>';
   $('chip').textContent=days===0?'É hoje!':'Faltam '+days+' d'}
- const si=Object.values(S.stops).filter(Boolean).length,it=itemsDone(),tot=itemsTotal();
+ const si=Object.values(S.stops).filter(Boolean).length,it=itemsDone(),tot=itemsTotal(),dd=dayDone(),dt=dayTotal();
  const bar=(l,a,b)=>`<div><div class="flex justify-between text-xs mb-1"><span>${l}</span><span class="mut">${a}/${b}</span></div><div class="bar"><i style="width:${b?a/b*100:0}%"></i></div></div>`;
- $('prog').innerHTML=bar('Checklist de itens',it,tot)+bar('Marcos do roteiro',si,STOPS.length);
+ $('prog').innerHTML=bar('Checklist de mala',it,tot)+bar('Paradas da estrada',si,STOPS.length)+bar('Roteiro Cabo Frio',dd,dt);
  const f=fuelCalc(),e=S.exp.reduce((a,x)=>a+x.v,0);
  const st=(a,b)=>`<div class="card !p-3"><div class="text-sm font-bold ac">${a}</div><div class="text-[10px] mut">${b}</div></div>`;
  $('stats').innerHTML=st('~'+STOPS[4].km+' km','Ida')+st(R(f.cost),'Combustível est.')+st(R(e),'Gasto real')}
@@ -195,6 +395,56 @@ function renderStops(){
   <label class="btn2 flex items-center gap-2 ml-auto"><input type="checkbox" ${S.stops[i]?'checked':''} onchange="togStop(${i},this.checked)"> Concluída</label></div></div></div></div>`}).join('');
  $('sc').textContent=Object.values(S.stops).filter(Boolean).length+'/'+STOPS.length+' concluídos'}
 function togStop(i,v){S.stops[i]=v;save();renderStops();home()}
+
+function setDayFilter(f){dayFilter=f;renderDays()}
+function togDay(id,v){S.days[id]=v;save();renderDays();home()}
+function renderDays(){
+ const filters=[['all','Todos'],...TRIP_DAYS.map(d=>[d.id,d.short]),['dicas','Dicas']];
+ $('dayFilters').innerHTML=filters.map(f=>`<button type="button" class="pill ${dayFilter===f[0]?'on':''}" onclick="setDayFilter('${f[0]}')">${f[1]}</button>`).join('');
+ $('dc').textContent=dayDone()+'/'+dayTotal()+' feitos';
+ let html='';
+ if(dayFilter!=='dicas'){
+  const list=dayFilter==='all'?TRIP_DAYS:TRIP_DAYS.filter(d=>d.id===dayFilter);
+  html+=list.map(day=>`
+   <div class="space-y-2.5">
+    <div class="px-1 pt-1">
+     <h3 class="text-sm font-bold ac">${esc(day.title)}</h3>
+     <p class="text-[11px] mut">${esc(day.sub)}</p>
+    </div>
+    ${day.items.map(it=>{
+     const q=encodeURIComponent(it.q);
+     const done=!!S.days[it.id];
+     return `<div class="card ${done?'done':''}">
+      <div class="flex items-center justify-between gap-2 text-[11px]">
+       <span class="font-bold ac">${esc(it.time)}</span>
+       <span class="px-2 py-0.5 rounded-full bg-slate-950 border border-slate-800 mut">${esc(it.badge)}</span>
+      </div>
+      <h4 class="ttl text-sm font-bold mt-1">${esc(it.title)}</h4>
+      <p class="text-xs mut mt-1.5 leading-relaxed">${esc(it.desc)}</p>
+      <div class="flex gap-2 mt-3 flex-wrap items-center">
+       <a class="btn2" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Maps</a>
+       <a class="btn2" target="_blank" rel="noopener" href="https://waze.com/ul?q=${q}&navigate=yes">Waze</a>
+       <label class="btn2 flex items-center gap-2 ml-auto"><input type="checkbox" ${done?'checked':''} onchange="togDay('${it.id}',this.checked)"> Feito</label>
+      </div>
+     </div>`;
+    }).join('')}
+   </div>`).join('');
+ }
+ if(dayFilter==='all'||dayFilter==='dicas'){
+  html+=`<div class="space-y-2.5 pt-1">
+   <div class="px-1">
+    <h3 class="text-sm font-bold ac">Dicas & Perguntas Frequentes</h3>
+    <p class="text-[11px] mut">Nascer do sol, temporada, praia extra e passeios com crianças</p>
+   </div>
+   ${EXTRA_TIPS.map(t=>`<div class="card text-xs space-y-1 leading-relaxed">
+    <div class="font-bold text-slate-100">${t.icon} ${esc(t.title)}</div>
+    <p class="mut">${esc(t.txt)}</p>
+   </div>`).join('')}
+   <a class="btn2 w-full text-center block" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent('Praia das Conchas, Cabo Frio, RJ')}">🗺️ Ver Praia das Conchas no Maps</a>
+  </div>`;
+ }
+ $('dayPlan').innerHTML=html;
+}
 
 function itemsTotal(){return Object.values(GROUPS).flat().length+S.custom.length}
 function itemsDone(){return Object.keys(S.items).filter(k=>S.items[k]).length}
@@ -237,7 +487,7 @@ function resetAll(){if(confirm('Apagar tudo (checklists, gastos e dados)?')){S=J
 
 function init(){
  $('cKm').value=S.cfg.km;$('cKml').value=S.cfg.kml;$('cPr').value=S.cfg.pr;$('cRt').checked=!!S.cfg.rt;
- renderStops();renderMala();renderExp();info();fuel();home();tab('home')}
+ renderStops();renderDays();renderMala();renderExp();info();fuel();home();tab('home')}
 init();setInterval(home,30000);
 </script>
 </body>
